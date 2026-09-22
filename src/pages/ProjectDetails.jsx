@@ -78,6 +78,18 @@ export default function ProjectDetails() {
     enabled: !!projectId,
   });
 
+  const { data: purchaseRequisitions = [] } = useQuery({
+    queryKey: ['purchaseRequisitions', projectId],
+    queryFn: () => base44.entities.PurchaseRequisition.filter({ project_id: projectId }),
+    enabled: !!projectId,
+  });
+
+  const { data: inventoryTransactions = [] } = useQuery({
+    queryKey: ['inventoryTransactions', projectId],
+    queryFn: () => base44.entities.InventoryTransaction.filter({ project_id: projectId }),
+    enabled: !!projectId,
+  });
+
   const { data: bps = [] } = useQuery({
     queryKey: ['bps'],
     queryFn: () => base44.entities.BusinessPartner.list(),
@@ -207,6 +219,10 @@ export default function ProjectDetails() {
           <TabsTrigger value="procurement">
             <ShoppingCart className="h-4 w-4 mr-1" />
             {language === 'ar' ? 'المشتريات' : 'Procurement'} ({pos.length})
+          </TabsTrigger>
+          <TabsTrigger value="execution">
+            <Package className="h-4 w-4 mr-1" />
+            {language === 'ar' ? 'خطة التنفيذ' : 'Execution'} 
           </TabsTrigger>
         </TabsList>
 
@@ -409,6 +425,169 @@ export default function ProjectDetails() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="execution" className="mt-4">
+          <div className="space-y-6">
+            {/* Direct Material Requisitions */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ShoppingCart className="h-5 w-5 text-blue-600" />
+                  {language === 'ar' ? 'طلبات الشراء المباشرة' : 'Direct Material Requisitions (PR)'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {purchaseRequisitions.length === 0 ? (
+                  <p className="text-center py-4 text-slate-400">
+                    {language === 'ar' ? 'لا توجد طلبات شراء' : 'No purchase requisitions'}
+                  </p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead className="bg-slate-50">
+                        <tr className="border-b">
+                          <th className="p-2 text-right">{language === 'ar' ? 'رقم الطلب' : 'PR Number'}</th>
+                          <th className="p-2 text-right">{language === 'ar' ? 'التاريخ' : 'Date'}</th>
+                          <th className="p-2 text-right">{language === 'ar' ? 'القيمة' : 'Value'}</th>
+                          <th className="p-2 text-right">{language === 'ar' ? 'الحالة' : 'Status'}</th>
+                          <th className="p-2 text-right">{language === 'ar' ? 'مرتبط بـ BOQ' : 'BOQ Linked'}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {purchaseRequisitions.slice(0, 10).map((pr, i) => (
+                          <tr key={pr.id || i} className="border-b hover:bg-slate-50">
+                            <td className="p-2 font-mono">{pr.pr_number || pr.system_code || '-'}</td>
+                            <td className="p-2">{formatDate(pr.pr_date || pr.created_at)}</td>
+                            <td className="p-2 font-mono text-right">{formatCurrency(pr.total_amount || 0)}</td>
+                            <td className="p-2">
+                              <Badge className={getStatusColor(pr.status)}>{pr.status}</Badge>
+                            </td>
+                            <td className="p-2">
+                              {pr.boq_id ? (
+                                <Badge className="bg-blue-100 text-blue-700">
+                                  {language === 'ar' ? 'مرتبط' : 'Linked'}
+                                </Badge>
+                              ) : (
+                                <span className="text-slate-400">-</span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Subcontractor Package Allocation */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <HardHat className="h-5 w-5 text-purple-600" />
+                  {language === 'ar' ? 'توزيع حزم مقاولي الباطن' : 'Subcontractor Package Allocation'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {subcontracts.length === 0 ? (
+                  <p className="text-center py-4 text-slate-400">
+                    {language === 'ar' ? 'لا توجد عقود باطن' : 'No subcontracts'}
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {subcontracts.map((sc, i) => {
+                      const subcontractor = bps.find(bp => bp.id === sc.subcontractor_id);
+                      const committed = parseFloat(sc.current_value || sc.original_value) || 0;
+                      const certified = parseFloat(sc.certified_amount) || 0;
+                      const remaining = committed - certified;
+                      const utilization = committed > 0 ? (certified / committed) * 100 : 0;
+                      return (
+                        <div key={sc.id || i} className="p-4 border rounded-lg">
+                          <div className="flex items-center justify-between mb-2">
+                            <div>
+                              <span className="font-mono text-xs text-slate-500">{sc.subcontract_number}</span>
+                              <p className="font-medium text-sm">
+                                {subcontractor ? getLocalizedName(subcontractor, language, 'bp_name_ar', 'bp_name_en') : '-'}
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-sm font-mono">{formatCurrency(committed)}</p>
+                              <Badge className={getStatusColor(sc.status)}>{sc.status}</Badge>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-3 gap-4 text-xs">
+                            <div>
+                              <span className="text-slate-500">{language === 'ar' ? 'الملتزم:' : 'Committed:'}</span>
+                              <span className="font-mono ml-1">{formatCurrency(committed)}</span>
+                            </div>
+                            <div>
+                              <span className="text-slate-500">{language === 'ar' ? 'المستخلص:' : 'Certified:'}</span>
+                              <span className="font-mono ml-1">{formatCurrency(certified)}</span>
+                            </div>
+                            <div>
+                              <span className="text-slate-500">{language === 'ar' ? 'المتبقي:' : 'Remaining:'}</span>
+                              <span className={cn("font-mono ml-1", remaining < 0 && "text-red-600")}>{formatCurrency(remaining)}</span>
+                            </div>
+                          </div>
+                          <Progress value={utilization} className="mt-2 h-2" />
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Warehouse Material Issues */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Package className="h-5 w-5 text-amber-600" />
+                  {language === 'ar' ? 'صرف المواد من المخزن' : 'Warehouse Material Issues'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {inventoryTransactions.filter(t => t.transaction_type === 'issue' || t.transaction_type === 'out').length === 0 ? (
+                  <p className="text-center py-4 text-slate-400">
+                    {language === 'ar' ? 'لا توجد عمليات صرف' : 'No material issues'}
+                  </p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead className="bg-slate-50">
+                        <tr className="border-b">
+                          <th className="p-2 text-right">{language === 'ar' ? 'التاريخ' : 'Date'}</th>
+                          <th className="p-2 text-right">{language === 'ar' ? 'الصنف' : 'Item'}</th>
+                          <th className="p-2 text-right">{language === 'ar' ? 'الكمية' : 'Quantity'}</th>
+                          <th className="p-2 text-right">{language === 'ar' ? 'التكلفة' : 'Cost'}</th>
+                          <th className="p-2 text-right">{language === 'ar' ? 'مركز التكلفة' : 'Cost Center'}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {inventoryTransactions
+                          .filter(t => t.transaction_type === 'issue' || t.transaction_type === 'out')
+                          .slice(0, 10)
+                          .map((txn, i) => (
+                            <tr key={txn.id || i} className="border-b hover:bg-slate-50">
+                              <td className="p-2">{formatDate(txn.transaction_date || txn.created_at)}</td>
+                              <td className="p-2">{txn.product_name || txn.item_description || '-'}</td>
+                              <td className="p-2 font-mono text-right">{formatNumber(txn.quantity || 0, 2)}</td>
+                              <td className="p-2 font-mono text-right">{formatCurrency(txn.total_cost || txn.amount || 0)}</td>
+                              <td className="p-2">
+                                <Badge variant="outline" className="text-xs">
+                                  {language === 'ar' ? 'مشروع' : 'Project'}: {project?.project_code}
+                                </Badge>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

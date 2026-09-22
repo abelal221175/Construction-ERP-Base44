@@ -12,6 +12,8 @@ import { formatCurrency, formatNumber, formatDate, getLocalizedName } from '@/co
 import IPCItemsGrid from '@/components/ipc/IPCItemsGrid';
 import IPCDeductionsAdditions from '@/components/ipc/IPCDeductionsAdditions';
 import IPCSummaryCard from '@/components/ipc/IPCSummaryCard';
+import { calculateIPCItem, calculateIPCSummary, getDeductionLabel, getAdditionLabel } from '@/lib/ipcEngine';
+import { postClientIPCApproval } from '@/lib/glPostingEngine';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,8 +39,13 @@ const initialFormData = {
   period_to: '',
   ipc_sequence: 1,
   retention_percentage: 10,
+  retention_cap: 0,
   insurance_percentage: 1,
   vat_percentage: 14,
+  wht_percentage: 1,
+  advance_payment_balance: 0,
+  advance_recovery_percentage: 0,
+  previous_retention_total: 0,
   status: 'draft',
 };
 
@@ -78,6 +85,13 @@ export default function ClientIPC() {
     enabled: !!formData.project_id,
   });
 
+  const { data: glAccounts = [] } = useQuery({
+    queryKey: ['glAccounts', currentCompany?.id],
+    queryFn: () => currentCompany
+      ? base44.entities.GLAccount.filter({ company_id: currentCompany.id })
+      : base44.entities.GLAccount.list(),
+  });
+
   // Fetch previous IPC items for the selected project
   const { data: previousIPCData } = useQuery({
     queryKey: ['previousIPCData', formData.project_id, editingItem?.id],
@@ -108,7 +122,9 @@ export default function ClientIPC() {
       
       const items = level3Items.map(boq => {
         const prevItem = prevItems.find(p => p.boq_id === boq.id);
-        return {
+        // Pre-populate Current Qty from approved site IR quantities
+        const irApprovedQty = parseFloat(boq.last_approved_quantity) || 0;
+        const baseItem = {
           boq_id: boq.id,
           item_code: boq.external_code || boq.system_code,
           item_description: boq.item_description,
@@ -118,13 +134,15 @@ export default function ClientIPC() {
           contract_amount: boq.total_amount,
           previous_quantity: prevItem?.cumulative_quantity || 0,
           previous_amount: prevItem?.cumulative_amount || 0,
-          current_quantity: 0,
-          completion_percentage: 100,
-          cumulative_quantity: prevItem?.cumulative_quantity || 0,
-          cumulative_amount: prevItem?.cumulative_amount || 0,
+          current_quantity: irApprovedQty,
+          completion_percentage: parseFloat(boq.last_approved_completion) || 100,
+          cumulative_quantity: 0,
+          cumulative_amount: 0,
           current_amount: 0,
           sort_order: boq.sort_order || 0,
         };
+        // Calculate cumulative/current amounts using the engine
+        return calculateIPCItem(baseItem, irApprovedQty, baseItem.completion_percentage);
       }).sort((a, b) => a.sort_order - b.sort_order);
       
       setIpcItems(items);
@@ -139,31 +157,9 @@ export default function ClientIPC() {
     }
   }, [boqItems, previousIPCData, editingItem, formData.project_id]);
 
-  // Calculate item values with the correct formula
+  // Calculate item values with the Egyptian cumulative formula
   const calculateItem = (item, currentQty, completionPct) => {
-    const prevQty = parseFloat(item.previous_quantity) || 0;
-    const prevAmt = parseFloat(item.previous_amount) || 0;
-    const currQty = parseFloat(currentQty) || 0;
-    const compPct = parseFloat(completionPct) || 100;
-    const unitPrice = parseFloat(item.unit_price) || 0;
-    
-    // Cumulative Quantity = Previous Qty + Current Qty
-    const cumulativeQty = prevQty + currQty;
-    
-    // Cumulative Amount = Cumulative Qty × Completion % × Unit Price
-    const cumulativeAmt = cumulativeQty * (compPct / 100) * unitPrice;
-    
-    // Current Amount = Cumulative Amount - Previous Amount
-    const currentAmt = cumulativeAmt - prevAmt;
-    
-    return {
-      ...item,
-      current_quantity: currQty,
-      completion_percentage: compPct,
-      cumulative_quantity: cumulativeQty,
-      cumulative_amount: cumulativeAmt,
-      current_amount: currentAmt,
-    };
+    return calculateIPCItem(item, currentQty, completionPct);
   };
 
   const updateIpcItem = (index, field, value) => {
@@ -181,69 +177,22 @@ export default function ClientIPC() {
     });
   };
 
-  // Calculate summary with deductions & additions
+  // Calculate summary with Egyptian statutory deductions using shared engine
   const summary = useMemo(() => {
-    const cumulativeGross = ipcItems.reduce((sum, item) => sum + (item.cumulative_amount || 0), 0);
-    const previousCertified = ipcItems.reduce((sum, item) => sum + (item.previous_amount || 0), 0);
-    const currentGross = cumulativeGross - previousCertified;
-    
-    // Calculate percentage-based deductions
-    const updatedDeductions = deductions.map(d => {
-      if (d.is_percentage && currentGross > 0) {
-        return { ...d, amount: currentGross * (parseFloat(d.percentage) || 0) / 100 };
-      }
-      return d;
+    return calculateIPCSummary(ipcItems, {
+      vatPercentage: parseFloat(formData.vat_percentage) || 14,
+      whtPercentage: parseFloat(formData.wht_percentage) || 1,
+      retentionPercentage: parseFloat(formData.retention_percentage) || 10,
+      retentionCap: parseFloat(formData.retention_cap) || 0,
+      advancePaymentBalance: parseFloat(formData.advance_payment_balance) || 0,
+      advanceRecoveryPercentage: parseFloat(formData.advance_recovery_percentage) || 0,
+      previousRetentionTotal: parseFloat(formData.previous_retention_total) || 0,
+      deductions,
+      additions,
     });
-    
-    const totalDeductions = updatedDeductions.reduce((sum, d) => sum + (parseFloat(d.amount) || 0), 0);
-    const totalAdditions = additions.reduce((sum, a) => sum + (parseFloat(a.amount) || 0), 0);
-    
-    const subtotalBeforeVat = currentGross - totalDeductions + totalAdditions;
-    const vatAmount = subtotalBeforeVat * (parseFloat(formData.vat_percentage) || 0) / 100;
-    const netPayable = subtotalBeforeVat + vatAmount;
-
-    return {
-      cumulativeGross,
-      previousCertified,
-      currentGross,
-      totalDeductions,
-      totalAdditions,
-      subtotalBeforeVat,
-      vatAmount,
-      netPayable,
-      deductionsList: updatedDeductions.filter(d => d.amount > 0).map(d => ({
-        label: getDeductionLabel(d.category),
-        percentage: d.is_percentage ? d.percentage : null,
-        amount: d.amount,
-      })),
-      additionsList: additions.filter(a => a.amount > 0).map(a => ({
-        label: getAdditionLabel(a.category),
-        amount: a.amount,
-      })),
-    };
-  }, [ipcItems, deductions, additions, formData.vat_percentage]);
-
-  const getDeductionLabel = (category) => {
-    const labels = {
-      retention: language === 'ar' ? 'ضمان الأعمال' : 'Retention',
-      advance_recovery: language === 'ar' ? 'استرداد الدفعة' : 'Advance Recovery',
-      penalty: language === 'ar' ? 'غرامات' : 'Penalties',
-      insurance: language === 'ar' ? 'تأمين' : 'Insurance',
-      backcharge: language === 'ar' ? 'مقاصة' : 'Backcharge',
-      other: language === 'ar' ? 'أخرى' : 'Other',
-    };
-    return labels[category] || category;
-  };
-
-  const getAdditionLabel = (category) => {
-    const labels = {
-      variation: language === 'ar' ? 'أمر تغيير' : 'Variation',
-      escalation: language === 'ar' ? 'تصعيد' : 'Escalation',
-      materials_on_site: language === 'ar' ? 'مواد بالموقع' : 'Materials on Site',
-      other: language === 'ar' ? 'أخرى' : 'Other',
-    };
-    return labels[category] || category;
-  };
+  }, [ipcItems, deductions, additions, formData.vat_percentage, formData.wht_percentage,
+      formData.retention_percentage, formData.retention_cap, formData.advance_payment_balance,
+      formData.advance_recovery_percentage, formData.previous_retention_total]);
 
   const createMutation = useMutation({
     mutationFn: async (data) => {
@@ -252,9 +201,12 @@ export default function ClientIPC() {
         cumulative_gross_amount: summary.cumulativeGross,
         previous_certified_amount: summary.previousCertified,
         current_gross_amount: summary.currentGross,
-        retention_amount: deductions.find(d => d.category === 'retention')?.amount || 0,
+        advance_recovery_amount: summary.advanceRecovery || 0,
+        retention_amount: summary.retentionAmount || 0,
+        wht_amount: summary.whtAmount || 0,
         total_deductions: summary.totalDeductions,
         total_additions: summary.totalAdditions,
+        taxable_net: summary.taxableNet,
         vat_amount: summary.vatAmount,
         net_payable_amount: summary.netPayable,
       });
@@ -288,7 +240,21 @@ export default function ClientIPC() {
           });
         }
       }
-      
+
+      // Post double-entry GL entries on approval
+      if (data.status === 'approved' || data.status === 'certified') {
+        try {
+          await postClientIPCApproval({
+            ipc: { ...ipc, ...data, current_gross_amount: summary.currentGross, retention_amount: summary.retentionAmount, vat_amount: summary.vatAmount },
+            accounts: glAccounts,
+            companyId: currentCompany?.id,
+            costCenterId: data.project_id,
+          });
+        } catch (e) {
+          console.error('[GL Posting] Failed:', e);
+        }
+      }
+
       return ipc;
     },
     onSuccess: () => {
@@ -586,12 +552,51 @@ export default function ClientIPC() {
                   </div>
 
                   <div className="space-y-2">
+                    <Label>{language === 'ar' ? 'ضريبة الخصم (WHT) %' : 'WHT %'}</Label>
+                    <Input
+                      type="number"
+                      step="0.1"
+                      value={formData.wht_percentage}
+                      onChange={(e) => setFormData({ ...formData, wht_percentage: parseFloat(e.target.value) || 1 })}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{language === 'ar' ? 'سقف الضمان' : 'Retention Cap'}</Label>
+                    <Input
+                      type="number"
+                      value={formData.retention_cap}
+                      onChange={(e) => setFormData({ ...formData, retention_cap: parseFloat(e.target.value) || 0 })}
+                      placeholder="0 = no cap"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
                     <Label>{language === 'ar' ? 'رقم التسلسل' : 'Sequence'}</Label>
                     <Input
                       type="number"
                       value={formData.ipc_sequence}
                       disabled
                       className="bg-slate-50"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{language === 'ar' ? 'رصيد الدفعة المقدمة' : 'Advance Balance'}</Label>
+                    <Input
+                      type="number"
+                      value={formData.advance_payment_balance}
+                      onChange={(e) => setFormData({ ...formData, advance_payment_balance: parseFloat(e.target.value) || 0 })}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{language === 'ar' ? '% استرداد الدفعة' : 'Advance Recovery %'}</Label>
+                    <Input
+                      type="number"
+                      step="0.1"
+                      value={formData.advance_recovery_percentage}
+                      onChange={(e) => setFormData({ ...formData, advance_recovery_percentage: parseFloat(e.target.value) || 0 })}
                     />
                   </div>
                 </div>

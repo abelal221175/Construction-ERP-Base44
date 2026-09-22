@@ -12,6 +12,8 @@ import { formatCurrency, formatDate, formatNumber, formatPercentage, getLocalize
 import IPCItemsGrid from '@/components/ipc/IPCItemsGrid';
 import IPCDeductionsAdditions from '@/components/ipc/IPCDeductionsAdditions';
 import IPCSummaryCard from '@/components/ipc/IPCSummaryCard';
+import { calculateIPCItem, calculateIPCSummary, getDeductionLabel, getAdditionLabel } from '@/lib/ipcEngine';
+import { postSubcontractorIPCApproval } from '@/lib/glPostingEngine';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -38,9 +40,13 @@ const initialFormData = {
   ipc_sequence: 1,
   contract_value: 0,
   retention_percentage: 10,
+  retention_cap: 0,
   insurance_percentage: 1,
   advance_recovery_percentage: 0,
+  advance_payment_balance: 0,
   vat_percentage: 14,
+  wht_percentage: 1,
+  previous_retention_total: 0,
   notes: '',
   status: 'draft',
 };
@@ -81,6 +87,13 @@ export default function SubcontractorIPC() {
     queryFn: () => currentCompany 
       ? base44.entities.BusinessPartner.filter({ company_id: currentCompany.id })
       : base44.entities.BusinessPartner.list(),
+  });
+
+  const { data: glAccounts = [] } = useQuery({
+    queryKey: ['glAccounts', currentCompany?.id],
+    queryFn: () => currentCompany
+      ? base44.entities.GLAccount.filter({ company_id: currentCompany.id })
+      : base44.entities.GLAccount.list(),
   });
 
   const { data: projects = [] } = useQuery({
@@ -158,26 +171,9 @@ export default function SubcontractorIPC() {
     }
   }, [subcontractBOQs, previousIPCData, editingItem, formData.subcontract_id]);
 
-  // Calculate item values
+  // Calculate item values using shared Egyptian cumulative formula
   const calculateItem = (item, currentQty, completionPct) => {
-    const prevQty = parseFloat(item.previous_quantity) || 0;
-    const prevAmt = parseFloat(item.previous_amount) || 0;
-    const currQty = parseFloat(currentQty) || 0;
-    const compPct = parseFloat(completionPct) || 100;
-    const unitPrice = parseFloat(item.unit_price) || 0;
-    
-    const cumulativeQty = prevQty + currQty;
-    const cumulativeAmt = cumulativeQty * (compPct / 100) * unitPrice;
-    const currentAmt = cumulativeAmt - prevAmt;
-    
-    return {
-      ...item,
-      current_quantity: currQty,
-      completion_percentage: compPct,
-      cumulative_quantity: cumulativeQty,
-      cumulative_amount: cumulativeAmt,
-      current_amount: currentAmt,
-    };
+    return calculateIPCItem(item, currentQty, completionPct);
   };
 
   const updateIpcItem = (index, field, value) => {
@@ -195,71 +191,29 @@ export default function SubcontractorIPC() {
     });
   };
 
-  // Calculate summary
+  // Calculate summary using shared Egyptian statutory billing engine
   const summary = useMemo(() => {
-    const cumulativeGross = ipcItems.reduce((sum, item) => sum + (item.cumulative_amount || 0), 0);
-    const previousCertified = ipcItems.reduce((sum, item) => sum + (item.previous_amount || 0), 0);
-    const currentGross = cumulativeGross - previousCertified;
-    
-    const updatedDeductions = deductions.map(d => {
-      if (d.is_percentage && currentGross > 0) {
-        return { ...d, amount: currentGross * (parseFloat(d.percentage) || 0) / 100 };
-      }
-      return d;
+    const baseSummary = calculateIPCSummary(ipcItems, {
+      vatPercentage: parseFloat(formData.vat_percentage) || 14,
+      whtPercentage: parseFloat(formData.wht_percentage) || 1,
+      retentionPercentage: parseFloat(formData.retention_percentage) || 10,
+      retentionCap: parseFloat(formData.retention_cap) || 0,
+      advancePaymentBalance: parseFloat(formData.advance_payment_balance) || 0,
+      advanceRecoveryPercentage: parseFloat(formData.advance_recovery_percentage) || 0,
+      previousRetentionTotal: parseFloat(formData.previous_retention_total) || 0,
+      deductions,
+      additions,
     });
-    
-    const totalDeductions = updatedDeductions.reduce((sum, d) => sum + (parseFloat(d.amount) || 0), 0);
-    const totalAdditions = additions.reduce((sum, a) => sum + (parseFloat(a.amount) || 0), 0);
-    
-    const subtotalBeforeVat = currentGross - totalDeductions + totalAdditions;
-    const vatAmount = subtotalBeforeVat * (parseFloat(formData.vat_percentage) || 0) / 100;
-    const netPayable = subtotalBeforeVat + vatAmount;
-    
-    const completionPct = formData.contract_value > 0 ? (cumulativeGross / formData.contract_value) * 100 : 0;
+
+    const completionPct = formData.contract_value > 0 ? (baseSummary.cumulativeGross / formData.contract_value) * 100 : 0;
 
     return {
-      cumulativeGross,
-      previousCertified,
-      currentGross,
-      totalDeductions,
-      totalAdditions,
-      subtotalBeforeVat,
-      vatAmount,
-      netPayable,
+      ...baseSummary,
       completionPercentage: completionPct,
-      deductionsList: updatedDeductions.filter(d => d.amount > 0).map(d => ({
-        label: getDeductionLabel(d.category),
-        percentage: d.is_percentage ? d.percentage : null,
-        amount: d.amount,
-      })),
-      additionsList: additions.filter(a => a.amount > 0).map(a => ({
-        label: getAdditionLabel(a.category),
-        amount: a.amount,
-      })),
     };
-  }, [ipcItems, deductions, additions, formData.vat_percentage, formData.contract_value]);
-
-  const getDeductionLabel = (category) => {
-    const labels = {
-      retention: language === 'ar' ? 'ضمان الأعمال' : 'Retention',
-      advance_recovery: language === 'ar' ? 'استرداد الدفعة' : 'Advance Recovery',
-      penalty: language === 'ar' ? 'غرامات' : 'Penalties',
-      insurance: language === 'ar' ? 'تأمين' : 'Insurance',
-      backcharge: language === 'ar' ? 'مقاصة' : 'Backcharge',
-      other: language === 'ar' ? 'أخرى' : 'Other',
-    };
-    return labels[category] || category;
-  };
-
-  const getAdditionLabel = (category) => {
-    const labels = {
-      variation: language === 'ar' ? 'أمر تغيير' : 'Variation',
-      escalation: language === 'ar' ? 'تصعيد' : 'Escalation',
-      materials_on_site: language === 'ar' ? 'مواد بالموقع' : 'Materials on Site',
-      other: language === 'ar' ? 'أخرى' : 'Other',
-    };
-    return labels[category] || category;
-  };
+  }, [ipcItems, deductions, additions, formData.vat_percentage, formData.wht_percentage,
+      formData.retention_percentage, formData.retention_cap, formData.advance_payment_balance,
+      formData.advance_recovery_percentage, formData.previous_retention_total, formData.contract_value]);
 
   const createMutation = useMutation({
     mutationFn: async (data) => {
@@ -269,8 +223,9 @@ export default function SubcontractorIPC() {
         previous_certified_amount: summary.previousCertified,
         current_gross_amount: summary.currentGross,
         completion_percentage: summary.completionPercentage,
-        retention_amount: deductions.find(d => d.category === 'retention')?.amount || 0,
-        advance_recovery_amount: deductions.find(d => d.category === 'advance_recovery')?.amount || 0,
+        retention_amount: summary.retentionAmount || 0,
+        advance_recovery_amount: summary.advanceRecovery || 0,
+        wht_amount: summary.whtAmount || 0,
         total_deductions: summary.totalDeductions,
         additions: summary.totalAdditions,
         net_before_vat: summary.subtotalBeforeVat,
@@ -323,7 +278,22 @@ export default function SubcontractorIPC() {
           certified_amount: summary.cumulativeGross,
         });
       }
-      
+
+      // Post double-entry GL entries on approval
+      if (data.status === 'approved' || data.status === 'certified') {
+        try {
+          const costCenterId = sc?.project_id;
+          await postSubcontractorIPCApproval({
+            ipc: { ...ipc, ...data, current_gross_amount: summary.currentGross, retention_amount: summary.retentionAmount, vat_amount: summary.vatAmount },
+            accounts: glAccounts,
+            companyId: currentCompany?.id,
+            costCenterId,
+          });
+        } catch (e) {
+          console.error('[GL Posting] Failed:', e);
+        }
+      }
+
       return ipc;
     },
     onSuccess: () => {
@@ -660,6 +630,35 @@ export default function SubcontractorIPC() {
                       value={formData.contract_value}
                       disabled
                       className="bg-slate-50 font-mono"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{language === 'ar' ? 'ضريبة الخصم (WHT) %' : 'WHT %'}</Label>
+                    <Input
+                      type="number"
+                      step="0.1"
+                      value={formData.wht_percentage}
+                      onChange={(e) => setFormData({ ...formData, wht_percentage: parseFloat(e.target.value) || 1 })}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{language === 'ar' ? 'رصيد الدفعة المقدمة' : 'Advance Balance'}</Label>
+                    <Input
+                      type="number"
+                      value={formData.advance_payment_balance}
+                      onChange={(e) => setFormData({ ...formData, advance_payment_balance: parseFloat(e.target.value) || 0 })}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{language === 'ar' ? 'سقف الضمان' : 'Retention Cap'}</Label>
+                    <Input
+                      type="number"
+                      value={formData.retention_cap}
+                      onChange={(e) => setFormData({ ...formData, retention_cap: parseFloat(e.target.value) || 0 })}
+                      placeholder="0 = no cap"
                     />
                   </div>
                 </div>

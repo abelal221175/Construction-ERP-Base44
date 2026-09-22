@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useLanguage } from '@/components/shared/LanguageContext';
 import { formatNumber, formatCurrency } from '@/components/shared/formatters';
@@ -235,9 +235,20 @@ export default function BOQInlineEditor({
     );
   };
 
-  const subtotal = item.level === 3 
-    ? (item.quantity || 0) * (item.unit_price || 0)
-    : item.children?.reduce((sum, child) => sum + ((child.quantity || 0) * (child.unit_price || 0)), 0) || 0;
+  // Memoized subtotal - prevents recalculation on every render for 500+ line BOQs
+  const subtotal = useMemo(() => {
+    if (item.level === 3) {
+      return (parseFloat(item.quantity) || 0) * (parseFloat(item.unit_price) || 0);
+    }
+    // Level 1/2: aggregate from children with memoized rollup
+    if (!item.children || item.children.length === 0) return 0;
+    return item.children.reduce((sum, child) => {
+      const childTotal = child.level === 3
+        ? (parseFloat(child.quantity) || 0) * (parseFloat(child.unit_price) || 0)
+        : (parseFloat(child.total_amount) || 0);
+      return sum + childTotal;
+    }, 0);
+  }, [item.level, item.quantity, item.unit_price, item.children]);
 
   return (
     <tr className={cn(

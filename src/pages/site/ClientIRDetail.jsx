@@ -48,7 +48,31 @@ export default function ClientIRDetail() {
       if (status === 'Approved') { patch.approved_at = new Date().toISOString(); patch.approval_notes = notes; }
       if (status === 'Rejected') { patch.rejection_reason = notes; }
       if (status === 'Revision-Required') { patch.approval_notes = notes; }
-      return base44.entities.ClientInspectionRequest.update(id, patch);
+      await base44.entities.ClientInspectionRequest.update(id, patch);
+
+      // On approval: sync approved quantities to ProjectBOQ for next IPC
+      if (status === 'Approved' && ir?.project_id) {
+        try {
+          const boqItems = await base44.entities.ProjectBOQ.filter({ project_id: ir.project_id });
+          for (const irItem of items) {
+            // Match IR item to BOQ by code
+            const boqItem = boqItems.find(b =>
+              b.external_code === irItem.boq_code || b.system_code === irItem.boq_code
+            );
+            if (boqItem) {
+              // Store approved quantity for next IPC draft
+              await base44.entities.ProjectBOQ.update(boqItem.id, {
+                last_approved_quantity: irItem.current_quantity || 0,
+                last_approved_cumulative: irItem.cumulative_quantity || 0,
+                last_approved_completion: irItem.current_completion_percentage || 0,
+                last_ir_id: id,
+              });
+            }
+          }
+        } catch (e) {
+          console.error('[Site Portal] BOQ sync failed:', e);
+        }
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['siteIR', id] });

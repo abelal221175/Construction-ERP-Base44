@@ -19,10 +19,14 @@ export default function IPCSummaryCard({
     cumulativeGross = 0,
     previousCertified = 0,
     currentGross = 0,
+    advanceRecovery = 0,
+    retentionAmount = 0,
     totalDeductions = 0,
     totalAdditions = 0,
+    taxableNet = 0,
     subtotalBeforeVat = 0,
     vatAmount = 0,
+    whtAmount = 0,
     netPayable = 0,
   } = summary;
 
@@ -136,6 +140,14 @@ export default function IPCSummaryCard({
           value={vatAmount}
           isPositive
         />
+
+        {whtAmount > 0 && (
+          <SummaryLine
+            label={language === 'ar' ? 'ضريبة الخصم تحت الحساب' : 'Withholding Tax (WHT)'}
+            value={whtAmount}
+            isNegative
+          />
+        )}
 
         <Separator className="bg-slate-500 my-2" />
         
