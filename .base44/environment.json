@@ -1,0 +1,19 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "VITE_BASE44_APP_ID",
+      "description": "Your Base44 App ID — find it in the Base44 dashboard for this app (Construction ERP).",
+      "requiredAtBoot": true,
+      "generatedForDevelopment": true
+    },
+    {
+      "name": "VITE_BASE44_BACKEND_URL",
+      "description": "The Base44 backend/server URL your app connects to (typically https://api.base44.com).",
+      "requiredAtBoot": true,
+      "generatedForDevelopment": true
+    }
+  ]
+}
