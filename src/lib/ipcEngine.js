@@ -115,19 +115,19 @@ export function calculateIPCSummary(items, params = {}) {
 
   const totalAdditions = additions.reduce((s, a) => s + (parseFloat(a.amount) || 0), 0);
 
-  // --- Taxable Net ---
-  // Taxable = Current Gross - Advance Recovery (retention is NOT deducted before VAT)
-  const taxableNet = currentGross - advanceRecovery + totalAdditions - totalCustomDeductions;
+  // --- Subtotal Before VAT ---
+  // All deductions (advance recovery, retention, custom) are applied before VAT
+  const totalDeductionsPreVat = advanceRecovery + retentionAmount + totalCustomDeductions;
+  const subtotalBeforeVat = currentGross - totalDeductionsPreVat + totalAdditions;
 
-  // --- VAT 14% on taxable net ---
-  const vatAmount = taxableNet * (vatPercentage / 100);
+  // --- VAT 14% on subtotal after all deductions + additions ---
+  const vatAmount = subtotalBeforeVat * (vatPercentage / 100);
 
   // --- WHT (1% or 3%) on gross work value ---
   const whtAmount = currentGross * (whtPercentage / 100);
 
-  // --- Final Payable ---
-  // Final = Current Work Value - Advance Recovery - Retention + VAT - WHT + Additions - Custom Deductions
-  const netPayable = currentGross - advanceRecovery - retentionAmount + vatAmount - whtAmount + totalAdditions - totalCustomDeductions;
+  // --- Cheque Total (Net Payable) ---
+  const netPayable = subtotalBeforeVat + vatAmount - whtAmount;
 
   // Build deductions list for display
   const deductionsList = [
@@ -156,9 +156,10 @@ export function calculateIPCSummary(items, params = {}) {
     cumulativeRetention: previousRetentionTotal + retentionAmount,
     retentionCap,
     totalCustomDeductions,
-    totalDeductions: advanceRecovery + retentionAmount + totalCustomDeductions,
+    totalDeductions: totalDeductionsPreVat,
     totalAdditions,
-    taxableNet,
+    taxableNet: subtotalBeforeVat,
+    subtotalBeforeVat,
     vatAmount,
     whtAmount,
     netPayable,
