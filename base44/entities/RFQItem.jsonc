@@ -1,0 +1,66 @@
+{
+  "name": "RFQItem",
+  "type": "object",
+  "properties": {
+    "rfq_id": {
+      "type": "string",
+      "description": "Reference to RFQ"
+    },
+    "boq_id": {
+      "type": "string",
+      "description": "Reference to BOQ item"
+    },
+    "estimation_id": {
+      "type": "string",
+      "description": "Reference to cost estimation"
+    },
+    "cost_element_type": {
+      "type": "string",
+      "enum": [
+        "material",
+        "subcontractor",
+        "equipment",
+        "service"
+      ],
+      "description": "Type of cost element"
+    },
+    "cost_element_id": {
+      "type": "string",
+      "description": "FK to specific CostEstimationDetail"
+    },
+    "item_description": {
+      "type": "string"
+    },
+    "specifications": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "number"
+    },
+    "uom": {
+      "type": "string"
+    },
+    "estimated_unit_price": {
+      "type": "number"
+    },
+    "quoted_unit_price": {
+      "type": "number",
+      "description": "Price from selected quotation"
+    },
+    "quoted_total": {
+      "type": "number"
+    },
+    "selected_vendor_id": {
+      "type": "string",
+      "description": "Vendor selected for this item"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "rfq_id",
+    "item_description",
+    "quantity"
+  ]
+}

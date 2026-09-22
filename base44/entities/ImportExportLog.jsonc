@@ -1,0 +1,74 @@
+{
+  "name": "ImportExportLog",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "operation_type": {
+      "type": "string",
+      "enum": [
+        "import",
+        "export"
+      ],
+      "description": "Type of operation"
+    },
+    "template_id": {
+      "type": "string",
+      "description": "Reference to import/export template"
+    },
+    "module_name": {
+      "type": "string"
+    },
+    "table_name": {
+      "type": "string"
+    },
+    "file_name": {
+      "type": "string"
+    },
+    "file_url": {
+      "type": "string"
+    },
+    "total_records": {
+      "type": "number",
+      "default": 0
+    },
+    "success_count": {
+      "type": "number",
+      "default": 0
+    },
+    "error_count": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processing",
+        "completed",
+        "completed_with_errors",
+        "failed"
+      ],
+      "default": "pending"
+    },
+    "error_details": {
+      "type": "string",
+      "description": "JSON string with error details"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "operation_type",
+    "module_name",
+    "table_name"
+  ]
+}

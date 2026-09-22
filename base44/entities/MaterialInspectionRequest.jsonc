@@ -1,0 +1,64 @@
+{
+  "name": "MaterialInspectionRequest",
+  "properties": {
+    "company_id": {
+      "description": "Reference to company",
+      "type": "string"
+    },
+    "conformance_status": {
+      "enum": [
+        "conforms",
+        "minor_deviation",
+        "rejected"
+      ],
+      "type": "string"
+    },
+    "grn_id": {
+      "description": "Reference to GoodsReceivedNote",
+      "type": "string"
+    },
+    "inspected_by": {
+      "description": "Employee/user id",
+      "type": "string"
+    },
+    "inspection_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "mir_number": {
+      "description": "MIR-PROJ-0001",
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "photos": {
+      "description": "JSON array of photo URLs",
+      "type": "string"
+    },
+    "project_id": {
+      "description": "Reference to project",
+      "type": "string"
+    },
+    "status": {
+      "default": "draft",
+      "enum": [
+        "draft",
+        "submitted",
+        "closed"
+      ],
+      "type": "string"
+    },
+    "submittal_id": {
+      "description": "Reference to MaterialSubmittal - must be approved or approved_as_noted",
+      "type": "string"
+    }
+  },
+  "required": [
+    "project_id",
+    "mir_number",
+    "inspection_date",
+    "inspected_by"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,83 @@
+{
+  "name": "Tender",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "tender_number": {
+      "type": "string",
+      "description": "Unique tender number"
+    },
+    "tender_name": {
+      "type": "string",
+      "description": "Tender name (Arabic/English)"
+    },
+    "client_id": {
+      "type": "string",
+      "description": "Client business partner ID"
+    },
+    "consultant_id": {
+      "type": "string",
+      "description": "Consultant business partner ID"
+    },
+    "tender_type": {
+      "type": "string",
+      "enum": [
+        "public",
+        "private",
+        "direct_award"
+      ],
+      "default": "public"
+    },
+    "submission_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "opening_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "estimated_value": {
+      "type": "number"
+    },
+    "bid_bond_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "bid_bond_amount": {
+      "type": "number"
+    },
+    "bid_bond_percentage": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "under_study",
+        "submitted",
+        "won",
+        "lost",
+        "cancelled"
+      ],
+      "default": "draft"
+    },
+    "result_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "awarded_value": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "tender_number",
+    "tender_name"
+  ]
+}

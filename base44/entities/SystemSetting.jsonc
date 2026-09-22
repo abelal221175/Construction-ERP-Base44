@@ -1,0 +1,49 @@
+{
+  "name": "SystemSetting",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company (null for global settings)"
+    },
+    "setting_key": {
+      "type": "string",
+      "description": "Unique setting key"
+    },
+    "setting_value": {
+      "type": "string",
+      "description": "Setting value"
+    },
+    "setting_type": {
+      "type": "string",
+      "enum": [
+        "string",
+        "number",
+        "boolean",
+        "json"
+      ],
+      "default": "string",
+      "description": "Data type of the setting"
+    },
+    "description_ar": {
+      "type": "string",
+      "description": "Setting description in Arabic"
+    },
+    "description_en": {
+      "type": "string",
+      "description": "Setting description in English"
+    },
+    "is_system": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a system-level setting"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "setting_key"
+  ]
+}

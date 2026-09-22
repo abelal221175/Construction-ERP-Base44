@@ -1,0 +1,92 @@
+{
+  "name": "CostBreakdownTemplate",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "template_code": {
+      "type": "string",
+      "description": "Unique template code"
+    },
+    "template_name_ar": {
+      "type": "string"
+    },
+    "template_name_en": {
+      "type": "string"
+    },
+    "work_category_id": {
+      "type": "string"
+    },
+    "default_uom_ar": {
+      "type": "string"
+    },
+    "default_uom_en": {
+      "type": "string"
+    },
+    "default_markup_percentage": {
+      "type": "number"
+    },
+    "total_dry_cost_per_unit": {
+      "type": "number"
+    },
+    "template_details": {
+      "type": "array",
+      "description": "Array of cost breakdown details",
+      "items": {
+        "type": "object",
+        "properties": {
+          "cost_element_type": {
+            "type": "string"
+          },
+          "resource_id": {
+            "type": "string"
+          },
+          "description_ar": {
+            "type": "string"
+          },
+          "description_en": {
+            "type": "string"
+          },
+          "quantity_per_unit": {
+            "type": "number"
+          },
+          "uom_ar": {
+            "type": "string"
+          },
+          "uom_en": {
+            "type": "string"
+          },
+          "unit_cost": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "search_keywords_ar": {
+      "type": "string"
+    },
+    "search_keywords_en": {
+      "type": "string"
+    },
+    "usage_count": {
+      "type": "number",
+      "default": 0
+    },
+    "last_used_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "template_code",
+    "template_name_ar",
+    "template_name_en"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "Department",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "department_code": {
+      "type": "string",
+      "description": "Unique department code"
+    },
+    "department_name_ar": {
+      "type": "string",
+      "description": "Department name in Arabic"
+    },
+    "department_name_en": {
+      "type": "string",
+      "description": "Department name in English"
+    },
+    "parent_department_id": {
+      "type": "string",
+      "description": "Parent department for hierarchy"
+    },
+    "manager_id": {
+      "type": "string",
+      "description": "Department manager user ID"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "department_code",
+    "department_name_ar",
+    "department_name_en"
+  ]
+}

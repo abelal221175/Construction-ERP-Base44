@@ -1,0 +1,71 @@
+{
+  "name": "RFQVendorQuotation",
+  "type": "object",
+  "properties": {
+    "rfq_id": {
+      "type": "string",
+      "description": "Reference to RFQ"
+    },
+    "vendor_id": {
+      "type": "string",
+      "description": "Reference to business partner vendor"
+    },
+    "quotation_number": {
+      "type": "string"
+    },
+    "quotation_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "received",
+        "under_review",
+        "awarded",
+        "rejected"
+      ],
+      "default": "pending"
+    },
+    "total_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "payment_terms": {
+      "type": "string"
+    },
+    "delivery_terms": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "is_awarded": {
+      "type": "boolean",
+      "default": false
+    },
+    "award_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "awarded_by": {
+      "type": "string"
+    },
+    "converted_to_po": {
+      "type": "boolean",
+      "default": false
+    },
+    "po_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "rfq_id",
+    "vendor_id"
+  ]
+}

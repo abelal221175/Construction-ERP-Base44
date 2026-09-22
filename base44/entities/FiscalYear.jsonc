@@ -1,0 +1,45 @@
+{
+  "name": "FiscalYear",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "year_code": {
+      "type": "string",
+      "description": "Unique year code (e.g., 2024, FY2024)"
+    },
+    "year_name": {
+      "type": "string",
+      "description": "Display name for the fiscal year"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Fiscal year start date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Fiscal year end date"
+    },
+    "is_open": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the fiscal year is open for transactions"
+    },
+    "is_current": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is the current fiscal year"
+    }
+  },
+  "required": [
+    "company_id",
+    "year_code",
+    "year_name",
+    "start_date",
+    "end_date"
+  ]
+}

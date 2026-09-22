@@ -1,0 +1,78 @@
+{
+  "name": "BOQTemplate",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "work_category_id": {
+      "type": "string",
+      "description": "Reference to work category"
+    },
+    "template_code": {
+      "type": "string"
+    },
+    "template_name_ar": {
+      "type": "string"
+    },
+    "template_name_en": {
+      "type": "string"
+    },
+    "item_description_ar": {
+      "type": "string"
+    },
+    "item_description_en": {
+      "type": "string"
+    },
+    "brief_description_ar": {
+      "type": "string"
+    },
+    "brief_description_en": {
+      "type": "string"
+    },
+    "uom_ar": {
+      "type": "string"
+    },
+    "uom_en": {
+      "type": "string"
+    },
+    "standard_unit_price": {
+      "type": "number"
+    },
+    "standard_unit_cost": {
+      "type": "number"
+    },
+    "default_markup_percentage": {
+      "type": "number",
+      "default": 40
+    },
+    "version_number": {
+      "type": "number",
+      "default": 1
+    },
+    "is_current_version": {
+      "type": "boolean",
+      "default": true
+    },
+    "template_details": {
+      "type": "string",
+      "description": "JSON array of cost breakdown details"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "usage_count": {
+      "type": "number",
+      "default": 0
+    },
+    "last_used_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "template_code",
+    "template_name_ar"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "name": "ImportExportTemplate",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company (null for global templates)"
+    },
+    "template_code": {
+      "type": "string",
+      "description": "Unique template code"
+    },
+    "template_name_ar": {
+      "type": "string"
+    },
+    "template_name_en": {
+      "type": "string"
+    },
+    "module_name": {
+      "type": "string",
+      "description": "Module this template belongs to"
+    },
+    "table_name": {
+      "type": "string",
+      "description": "Target entity/table name"
+    },
+    "column_mapping": {
+      "type": "string",
+      "description": "JSON string defining column mappings"
+    },
+    "validation_rules": {
+      "type": "string",
+      "description": "JSON string defining validation rules"
+    },
+    "template_file_url": {
+      "type": "string",
+      "description": "URL to the template file"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "template_code",
+    "template_name_ar",
+    "template_name_en",
+    "module_name",
+    "table_name"
+  ]
+}

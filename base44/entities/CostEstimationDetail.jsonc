@@ -1,0 +1,82 @@
+{
+  "name": "CostEstimationDetail",
+  "type": "object",
+  "properties": {
+    "estimation_id": {
+      "type": "string",
+      "description": "Reference to cost estimation"
+    },
+    "line_no": {
+      "type": "number"
+    },
+    "cost_element_type": {
+      "type": "string",
+      "enum": [
+        "material",
+        "subcontractor",
+        "labor",
+        "equipment",
+        "service",
+        "indirect"
+      ],
+      "description": "Type of cost element"
+    },
+    "resource_id": {
+      "type": "string",
+      "description": "FK to product/bp/equipment based on type"
+    },
+    "resource_code": {
+      "type": "string",
+      "description": "Code from linked master data"
+    },
+    "supplier_id": {
+      "type": "string",
+      "description": "FK to Business Partner (supplier)"
+    },
+    "description_ar": {
+      "type": "string"
+    },
+    "description_en": {
+      "type": "string"
+    },
+    "specifications": {
+      "type": "string"
+    },
+    "quantity_per_unit": {
+      "type": "number"
+    },
+    "uom_ar": {
+      "type": "string"
+    },
+    "uom_en": {
+      "type": "string"
+    },
+    "unit_cost": {
+      "type": "number"
+    },
+    "total_per_unit": {
+      "type": "number",
+      "description": "Calculated: quantity_per_unit * unit_cost"
+    },
+    "last_purchase_price": {
+      "type": "number"
+    },
+    "quoted_price": {
+      "type": "number"
+    },
+    "rfq_id": {
+      "type": "string"
+    },
+    "quotation_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "estimation_id",
+    "line_no",
+    "cost_element_type"
+  ]
+}

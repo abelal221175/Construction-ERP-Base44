@@ -1,0 +1,46 @@
+{
+  "name": "LGCommission",
+  "type": "object",
+  "properties": {
+    "lg_id": {
+      "type": "string",
+      "description": "Reference to letter of guarantee"
+    },
+    "commission_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "commission_type": {
+      "type": "string",
+      "enum": [
+        "initial",
+        "extension",
+        "annual"
+      ],
+      "default": "initial"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "period_from": {
+      "type": "string",
+      "format": "date"
+    },
+    "period_to": {
+      "type": "string",
+      "format": "date"
+    },
+    "journal_entry_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "lg_id",
+    "commission_date",
+    "commission_type",
+    "amount"
+  ]
+}

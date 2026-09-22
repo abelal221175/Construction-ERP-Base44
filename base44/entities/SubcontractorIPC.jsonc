@@ -1,0 +1,168 @@
+{
+  "name": "SubcontractorIPC",
+  "properties": {
+    "additions": {
+      "default": 0,
+      "type": "number"
+    },
+    "additions_description": {
+      "type": "string"
+    },
+    "advance_recovery_amount": {
+      "default": 0,
+      "type": "number"
+    },
+    "advance_recovery_percentage": {
+      "default": 0,
+      "type": "number"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "backcharges": {
+      "default": 0,
+      "type": "number"
+    },
+    "balance_due": {
+      "default": 0,
+      "type": "number"
+    },
+    "company_id": {
+      "description": "Reference to company",
+      "type": "string"
+    },
+    "completion_percentage": {
+      "description": "Overall completion percentage",
+      "type": "number"
+    },
+    "contract_value": {
+      "description": "Current contract value",
+      "type": "number"
+    },
+    "cumulative_advance_recovered": {
+      "default": 0,
+      "type": "number"
+    },
+    "cumulative_gross_amount": {
+      "type": "number"
+    },
+    "cumulative_retention": {
+      "default": 0,
+      "type": "number"
+    },
+    "current_gross_amount": {
+      "type": "number"
+    },
+    "ipc_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "ipc_number": {
+      "description": "Unique IPC number",
+      "type": "string"
+    },
+    "ipc_sequence": {
+      "type": "number"
+    },
+    "ir_id": {
+      "description": "Reference to SubcontractorInspectionRequest - the site measurement this IPC is based on. Required before status moves past draft.",
+      "type": "string"
+    },
+    "materials_on_site": {
+      "default": 0,
+      "description": "Value of materials on site",
+      "type": "number"
+    },
+    "net_before_vat": {
+      "type": "number"
+    },
+    "net_payable_amount": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "other_deductions": {
+      "default": 0,
+      "type": "number"
+    },
+    "other_deductions_description": {
+      "type": "string"
+    },
+    "paid_amount": {
+      "default": 0,
+      "type": "number"
+    },
+    "penalties": {
+      "default": 0,
+      "type": "number"
+    },
+    "period_from": {
+      "format": "date",
+      "type": "string"
+    },
+    "period_to": {
+      "format": "date",
+      "type": "string"
+    },
+    "previous_certified_amount": {
+      "type": "number"
+    },
+    "previous_materials_on_site": {
+      "default": 0,
+      "type": "number"
+    },
+    "retention_amount": {
+      "type": "number"
+    },
+    "retention_percentage": {
+      "type": "number"
+    },
+    "status": {
+      "default": "draft",
+      "enum": [
+        "draft",
+        "submitted",
+        "under_review",
+        "approved",
+        "certified",
+        "partially_paid",
+        "paid",
+        "rejected"
+      ],
+      "type": "string"
+    },
+    "subcontract_id": {
+      "description": "Reference to subcontract",
+      "type": "string"
+    },
+    "submitted_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "total_deductions": {
+      "type": "number"
+    },
+    "vat_amount": {
+      "type": "number"
+    },
+    "vat_percentage": {
+      "default": 14,
+      "type": "number"
+    }
+  },
+  "required": [
+    "company_id",
+    "subcontract_id",
+    "ipc_number",
+    "ipc_date",
+    "period_from",
+    "period_to",
+    "ipc_sequence"
+  ],
+  "type": "object"
+}

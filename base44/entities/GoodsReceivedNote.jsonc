@@ -1,0 +1,62 @@
+{
+  "name": "GoodsReceivedNote",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "grn_number": {
+      "type": "string",
+      "description": "Unique GRN number"
+    },
+    "grn_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "po_id": {
+      "type": "string",
+      "description": "Reference to PO"
+    },
+    "supplier_id": {
+      "type": "string"
+    },
+    "warehouse_id": {
+      "type": "string"
+    },
+    "received_by": {
+      "type": "string",
+      "description": "User who received"
+    },
+    "supplier_invoice_no": {
+      "type": "string"
+    },
+    "supplier_invoice_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes_ar": {
+      "type": "string"
+    },
+    "notes_en": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending_qc",
+        "accepted",
+        "posted"
+      ],
+      "default": "draft"
+    }
+  },
+  "required": [
+    "company_id",
+    "grn_number",
+    "grn_date",
+    "po_id",
+    "received_by"
+  ]
+}

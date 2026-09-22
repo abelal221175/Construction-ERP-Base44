@@ -1,0 +1,134 @@
+{
+  "name": "GLAccount",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "account_code": {
+      "type": "string",
+      "description": "Unique account code"
+    },
+    "account_name_ar": {
+      "type": "string"
+    },
+    "account_name_en": {
+      "type": "string"
+    },
+    "parent_account_id": {
+      "type": "string",
+      "description": "Parent account for hierarchy"
+    },
+    "account_level": {
+      "type": "number",
+      "description": "Level 1-6 in hierarchy"
+    },
+    "account_type": {
+      "type": "string",
+      "enum": [
+        "asset",
+        "liability",
+        "equity",
+        "revenue",
+        "expense"
+      ],
+      "description": "Account type"
+    },
+    "account_group": {
+      "type": "string"
+    },
+    "full_path": {
+      "type": "string",
+      "description": "Full hierarchy path"
+    },
+    "is_project_related": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_cost_center_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_cash_bank": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_ar": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_ap": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_revenue": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_cogs": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_inventory": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_retention": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_advance_payment": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_vat": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_withholding_tax": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_payroll": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_wip": {
+      "type": "boolean",
+      "default": false
+    },
+    "allow_posting": {
+      "type": "boolean",
+      "default": true
+    },
+    "require_approval": {
+      "type": "boolean",
+      "default": false
+    },
+    "opening_balance_debit": {
+      "type": "number",
+      "default": 0
+    },
+    "opening_balance_credit": {
+      "type": "number",
+      "default": 0
+    },
+    "current_balance": {
+      "type": "number",
+      "default": 0
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "account_code",
+    "account_name_ar",
+    "account_name_en",
+    "account_level",
+    "account_type"
+  ]
+}

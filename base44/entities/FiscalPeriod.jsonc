@@ -1,0 +1,45 @@
+{
+  "name": "FiscalPeriod",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "fiscal_year_id": {
+      "type": "string",
+      "description": "Reference to fiscal year"
+    },
+    "period_number": {
+      "type": "number",
+      "description": "Period number (1-12 or 13 for adjustment)"
+    },
+    "period_name": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "is_open": {
+      "type": "boolean",
+      "default": true
+    },
+    "is_adjustment_period": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "company_id",
+    "fiscal_year_id",
+    "period_number",
+    "period_name",
+    "start_date",
+    "end_date"
+  ]
+}

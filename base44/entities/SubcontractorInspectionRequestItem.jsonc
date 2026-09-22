@@ -1,0 +1,30 @@
+{
+  "name": "SubcontractorInspectionRequestItem",
+  "properties": {
+    "cumulative_percentage": {
+      "description": "Consultant/PM-approved completion %, if percentage-based line",
+      "type": "number"
+    },
+    "cumulative_quantity": {
+      "description": "Total executed to date, as measured this period",
+      "type": "number"
+    },
+    "ir_id": {
+      "description": "Reference to SubcontractorInspectionRequest",
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "subcontract_boq_id": {
+      "description": "Reference to SubcontractBOQ item",
+      "type": "string"
+    }
+  },
+  "required": [
+    "ir_id",
+    "subcontract_boq_id",
+    "cumulative_quantity"
+  ],
+  "type": "object"
+}

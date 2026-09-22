@@ -1,0 +1,50 @@
+{
+  "name": "Attendance",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "employee_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "attendance_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "check_in_time": {
+      "type": "string"
+    },
+    "check_out_time": {
+      "type": "string"
+    },
+    "worked_hours": {
+      "type": "number"
+    },
+    "overtime_hours": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "present",
+        "absent",
+        "leave",
+        "holiday"
+      ],
+      "default": "present"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "employee_id",
+    "attendance_date"
+  ]
+}

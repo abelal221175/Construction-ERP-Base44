@@ -1,0 +1,71 @@
+{
+  "name": "SubcontractorInspectionRequest",
+  "properties": {
+    "attachments": {
+      "description": "JSON array of measurement sheet/photo URLs",
+      "type": "string"
+    },
+    "company_id": {
+      "description": "Reference to company",
+      "type": "string"
+    },
+    "ir_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "ir_number": {
+      "description": "SIR-PROJ-SUBCON-0001",
+      "type": "string"
+    },
+    "measured_by": {
+      "description": "Site QS employee/user id",
+      "type": "string"
+    },
+    "period_from": {
+      "format": "date",
+      "type": "string"
+    },
+    "period_to": {
+      "format": "date",
+      "type": "string"
+    },
+    "project_id": {
+      "description": "Reference to project",
+      "type": "string"
+    },
+    "status": {
+      "default": "draft",
+      "enum": [
+        "draft",
+        "submitted",
+        "verified",
+        "approved",
+        "rejected"
+      ],
+      "type": "string"
+    },
+    "subcontract_id": {
+      "description": "Reference to Subcontract",
+      "type": "string"
+    },
+    "subcontractor_id": {
+      "description": "Reference to BusinessPartner (subcontractor)",
+      "type": "string"
+    },
+    "verified_by": {
+      "description": "Site engineer/consultant, if required by subcontract",
+      "type": "string"
+    }
+  },
+  "required": [
+    "project_id",
+    "subcontractor_id",
+    "subcontract_id",
+    "ir_number",
+    "ir_date",
+    "period_from",
+    "period_to",
+    "measured_by"
+  ],
+  "type": "object"
+}

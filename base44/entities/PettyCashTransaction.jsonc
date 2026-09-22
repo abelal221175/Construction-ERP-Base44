@@ -1,0 +1,55 @@
+{
+  "name": "PettyCashTransaction",
+  "type": "object",
+  "properties": {
+    "petty_cash_id": {
+      "type": "string",
+      "description": "Reference to petty cash fund"
+    },
+    "transaction_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "transaction_type": {
+      "type": "string",
+      "enum": [
+        "expense",
+        "replenishment"
+      ],
+      "default": "expense"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "balance_after": {
+      "type": "number"
+    },
+    "expense_category": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "receipt_number": {
+      "type": "string"
+    },
+    "receipt_attachment": {
+      "type": "string"
+    },
+    "cost_center_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "journal_entry_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "petty_cash_id",
+    "transaction_date",
+    "transaction_type",
+    "amount"
+  ]
+}

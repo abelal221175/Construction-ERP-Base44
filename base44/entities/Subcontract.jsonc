@@ -1,0 +1,143 @@
+{
+  "name": "Subcontract",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "subcontract_number": {
+      "type": "string",
+      "description": "Unique subcontract number"
+    },
+    "subcontractor_id": {
+      "type": "string",
+      "description": "Subcontractor business partner ID"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "work_category_id": {
+      "type": "string",
+      "description": "Reference to work category"
+    },
+    "contract_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "original_value": {
+      "type": "number"
+    },
+    "variation_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "current_value": {
+      "type": "number"
+    },
+    "certified_amount": {
+      "type": "number",
+      "default": 0,
+      "description": "Total certified amount from IPCs"
+    },
+    "paid_amount": {
+      "type": "number",
+      "default": 0,
+      "description": "Total paid amount"
+    },
+    "retention_percentage": {
+      "type": "number",
+      "default": 10
+    },
+    "retention_held": {
+      "type": "number",
+      "default": 0
+    },
+    "retention_released": {
+      "type": "number",
+      "default": 0
+    },
+    "advance_payment_percentage": {
+      "type": "number",
+      "default": 0
+    },
+    "advance_paid": {
+      "type": "number",
+      "default": 0
+    },
+    "advance_recovered": {
+      "type": "number",
+      "default": 0
+    },
+    "vat_percentage": {
+      "type": "number",
+      "default": 14
+    },
+    "performance_bond_percentage": {
+      "type": "number",
+      "default": 5
+    },
+    "performance_bond_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "insurance_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "insurance_policy_number": {
+      "type": "string"
+    },
+    "insurance_expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "scope_ar": {
+      "type": "string",
+      "description": "Scope of work in Arabic"
+    },
+    "scope_en": {
+      "type": "string",
+      "description": "Scope of work in English"
+    },
+    "terms_ar": {
+      "type": "string"
+    },
+    "terms_en": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "on_hold",
+        "completed",
+        "cancelled"
+      ],
+      "default": "draft"
+    },
+    "notes_ar": {
+      "type": "string"
+    },
+    "notes_en": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "subcontract_number",
+    "subcontractor_id",
+    "project_id",
+    "contract_date",
+    "original_value"
+  ]
+}

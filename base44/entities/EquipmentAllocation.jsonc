@@ -1,0 +1,50 @@
+{
+  "name": "EquipmentAllocation",
+  "type": "object",
+  "properties": {
+    "equipment_id": {
+      "type": "string",
+      "description": "Reference to equipment"
+    },
+    "project_id": {
+      "type": "string",
+      "description": "Reference to project"
+    },
+    "allocation_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "expected_return_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "actual_return_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "operator_id": {
+      "type": "string",
+      "description": "Reference to operator employee"
+    },
+    "charge_rate": {
+      "type": "number"
+    },
+    "charge_type": {
+      "type": "string",
+      "enum": [
+        "hourly",
+        "daily",
+        "monthly"
+      ],
+      "default": "daily"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "equipment_id",
+    "project_id",
+    "allocation_date"
+  ]
+}

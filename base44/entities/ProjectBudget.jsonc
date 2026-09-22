@@ -1,0 +1,107 @@
+{
+  "name": "ProjectBudget",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "Reference to project"
+    },
+    "budget_name_ar": {
+      "type": "string"
+    },
+    "budget_name_en": {
+      "type": "string"
+    },
+    "fiscal_year_id": {
+      "type": "string",
+      "description": "Reference to fiscal year"
+    },
+    "budget_type": {
+      "type": "string",
+      "enum": [
+        "original",
+        "revised",
+        "forecast"
+      ],
+      "default": "original",
+      "description": "Budget type"
+    },
+    "version_number": {
+      "type": "number",
+      "default": 1
+    },
+    "is_current_version": {
+      "type": "boolean",
+      "default": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "submitted",
+        "approved",
+        "rejected",
+        "closed"
+      ],
+      "default": "draft"
+    },
+    "total_budget_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "total_committed_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "total_actual_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "variance_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "variance_percentage": {
+      "type": "number",
+      "default": 0
+    },
+    "contingency_percentage": {
+      "type": "number",
+      "default": 10
+    },
+    "contingency_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "submitted_by": {
+      "type": "string"
+    },
+    "submitted_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "project_id",
+    "budget_name_ar",
+    "budget_name_en"
+  ]
+}

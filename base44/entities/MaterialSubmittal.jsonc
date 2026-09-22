@@ -1,0 +1,123 @@
+{
+  "name": "MaterialSubmittal",
+  "properties": {
+    "attachments": {
+      "description": "JSON array of datasheet/sample photo/certificate URLs",
+      "type": "string"
+    },
+    "ball_in_court": {
+      "default": "consultant",
+      "enum": [
+        "site",
+        "consultant",
+        "client"
+      ],
+      "type": "string"
+    },
+    "boq_id": {
+      "description": "Reference to Project BOQ item",
+      "type": "string"
+    },
+    "company_id": {
+      "description": "Reference to company",
+      "type": "string"
+    },
+    "current_cycle": {
+      "default": 1,
+      "type": "number"
+    },
+    "description": {
+      "type": "string"
+    },
+    "description_ar": {
+      "type": "string"
+    },
+    "linked_document_id": {
+      "description": "Reference to DMSDocument",
+      "type": "string"
+    },
+    "product_id": {
+      "description": "Reference to Product",
+      "type": "string"
+    },
+    "project_id": {
+      "description": "Reference to project",
+      "type": "string"
+    },
+    "required_on_site_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "review_code": {
+      "enum": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "type": "string"
+    },
+    "review_comments": {
+      "type": "string"
+    },
+    "reviewed_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "reviewed_by": {
+      "type": "string"
+    },
+    "specification_reference": {
+      "type": "string"
+    },
+    "status": {
+      "default": "submitted",
+      "enum": [
+        "draft",
+        "submitted",
+        "under_review",
+        "approved",
+        "approved_as_noted",
+        "revise_resubmit",
+        "rejected",
+        "closed"
+      ],
+      "type": "string"
+    },
+    "subcontract_id": {
+      "description": "Reference to Subcontract, if submitted via/for a subcontractor",
+      "type": "string"
+    },
+    "submittal_number": {
+      "description": "SUB-PROJ-0001",
+      "type": "string"
+    },
+    "submittal_type": {
+      "enum": [
+        "material",
+        "sample",
+        "shop_drawing",
+        "method_statement",
+        "mock_up"
+      ],
+      "type": "string"
+    },
+    "submitted_by": {
+      "description": "Employee/user id",
+      "type": "string"
+    },
+    "submitted_date": {
+      "format": "date",
+      "type": "string"
+    }
+  },
+  "required": [
+    "project_id",
+    "submittal_number",
+    "submittal_type",
+    "description",
+    "submitted_by",
+    "submitted_date"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,52 @@
+{
+  "name": "AuditLog",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to user who performed the action"
+    },
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "create",
+        "update",
+        "delete",
+        "login",
+        "logout",
+        "export",
+        "import"
+      ],
+      "description": "Type of action performed"
+    },
+    "table_name": {
+      "type": "string",
+      "description": "Name of the affected table/entity"
+    },
+    "record_id": {
+      "type": "string",
+      "description": "ID of the affected record"
+    },
+    "old_values": {
+      "type": "string",
+      "description": "JSON string of old values"
+    },
+    "new_values": {
+      "type": "string",
+      "description": "JSON string of new values"
+    },
+    "ip_address": {
+      "type": "string"
+    },
+    "user_agent": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "action_type"
+  ]
+}

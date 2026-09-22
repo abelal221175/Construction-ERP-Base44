@@ -1,0 +1,173 @@
+{
+  "name": "BusinessPartner",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "bp_code": {
+      "type": "string",
+      "description": "Unique business partner code"
+    },
+    "bp_name_ar": {
+      "type": "string",
+      "description": "Business partner name in Arabic"
+    },
+    "bp_name_en": {
+      "type": "string",
+      "description": "Business partner name in English"
+    },
+    "is_client": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_supplier": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_subcontractor": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_consultant": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_equipment_supplier": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_bank": {
+      "type": "boolean",
+      "default": false
+    },
+    "tax_id": {
+      "type": "string",
+      "description": "Tax identification number"
+    },
+    "commercial_register": {
+      "type": "string",
+      "description": "Commercial registration number"
+    },
+    "license_number": {
+      "type": "string"
+    },
+    "license_expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "address_ar": {
+      "type": "string"
+    },
+    "address_en": {
+      "type": "string"
+    },
+    "city_ar": {
+      "type": "string"
+    },
+    "city_en": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string",
+      "default": "Egypt"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "mobile": {
+      "type": "string"
+    },
+    "fax": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "website": {
+      "type": "string"
+    },
+    "payment_terms_days": {
+      "type": "number",
+      "default": 30
+    },
+    "credit_limit": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "EGP"
+    },
+    "ar_account_id": {
+      "type": "string",
+      "description": "AR GL Account ID"
+    },
+    "ap_account_id": {
+      "type": "string",
+      "description": "AP GL Account ID"
+    },
+    "advance_account_id": {
+      "type": "string",
+      "description": "Advance Payment GL Account ID"
+    },
+    "retention_account_id": {
+      "type": "string",
+      "description": "Retention GL Account ID"
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "a",
+        "b",
+        "c"
+      ],
+      "description": "Partner classification"
+    },
+    "rating": {
+      "type": "number",
+      "description": "Rating 1-5"
+    },
+    "ar_balance": {
+      "type": "number",
+      "default": 0
+    },
+    "ap_balance": {
+      "type": "number",
+      "default": 0
+    },
+    "advance_balance": {
+      "type": "number",
+      "default": 0
+    },
+    "retention_balance": {
+      "type": "number",
+      "default": 0
+    },
+    "notes_ar": {
+      "type": "string"
+    },
+    "notes_en": {
+      "type": "string"
+    },
+    "search_keywords_ar": {
+      "type": "string",
+      "description": "Search keywords in Arabic"
+    },
+    "search_keywords_en": {
+      "type": "string",
+      "description": "Search keywords in English"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "bp_code",
+    "bp_name_ar",
+    "bp_name_en"
+  ]
+}

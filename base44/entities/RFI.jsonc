@@ -1,0 +1,121 @@
+{
+  "name": "RFI",
+  "properties": {
+    "attachments": {
+      "description": "JSON array of attachment URLs",
+      "type": "string"
+    },
+    "ball_in_court": {
+      "default": "consultant",
+      "enum": [
+        "site",
+        "consultant",
+        "client",
+        "designer"
+      ],
+      "type": "string"
+    },
+    "company_id": {
+      "description": "Reference to company",
+      "type": "string"
+    },
+    "cost_impact": {
+      "default": false,
+      "type": "boolean"
+    },
+    "discipline": {
+      "enum": [
+        "architectural",
+        "structural",
+        "mep",
+        "civil",
+        "contract",
+        "qa_qc",
+        "hse",
+        "other"
+      ],
+      "type": "string"
+    },
+    "impact_notes": {
+      "type": "string"
+    },
+    "linked_boq_id": {
+      "description": "Reference to Project BOQ item",
+      "type": "string"
+    },
+    "linked_document_id": {
+      "description": "Reference to DMSDocument",
+      "type": "string"
+    },
+    "linked_revision_id": {
+      "description": "Reference to DMSDocumentRevision",
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "priority": {
+      "default": "medium",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "type": "string"
+    },
+    "project_id": {
+      "description": "Reference to project",
+      "type": "string"
+    },
+    "question": {
+      "type": "string"
+    },
+    "question_ar": {
+      "type": "string"
+    },
+    "raised_by": {
+      "description": "Employee/user id who raised the RFI",
+      "type": "string"
+    },
+    "raised_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "required_by_date": {
+      "description": "Date the answer is due",
+      "format": "date",
+      "type": "string"
+    },
+    "rfi_number": {
+      "description": "Unique RFI number (RFI-PROJ-0001)",
+      "type": "string"
+    },
+    "schedule_impact": {
+      "default": false,
+      "type": "boolean"
+    },
+    "status": {
+      "default": "open",
+      "enum": [
+        "open",
+        "answered",
+        "closed",
+        "void"
+      ],
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "project_id",
+    "rfi_number",
+    "subject",
+    "question",
+    "raised_by",
+    "required_by_date"
+  ],
+  "type": "object"
+}

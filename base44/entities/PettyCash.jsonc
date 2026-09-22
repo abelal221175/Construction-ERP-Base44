@@ -1,0 +1,40 @@
+{
+  "name": "PettyCash",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "custodian_id": {
+      "type": "string",
+      "description": "Reference to employee"
+    },
+    "fund_limit": {
+      "type": "number"
+    },
+    "current_balance": {
+      "type": "number",
+      "default": 0
+    },
+    "gl_account_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "suspended",
+        "closed"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "company_id",
+    "custodian_id",
+    "fund_limit"
+  ]
+}

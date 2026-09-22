@@ -1,0 +1,45 @@
+{
+  "name": "MaterialSubmittalCycle",
+  "properties": {
+    "attachments": {
+      "description": "JSON array of attachment URLs",
+      "type": "string"
+    },
+    "comments": {
+      "type": "string"
+    },
+    "cycle_number": {
+      "type": "number"
+    },
+    "review_code": {
+      "enum": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "type": "string"
+    },
+    "reviewed_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "reviewed_by": {
+      "type": "string"
+    },
+    "submittal_id": {
+      "description": "Reference to MaterialSubmittal",
+      "type": "string"
+    },
+    "submitted_date": {
+      "format": "date",
+      "type": "string"
+    }
+  },
+  "required": [
+    "submittal_id",
+    "cycle_number",
+    "submitted_date"
+  ],
+  "type": "object"
+}

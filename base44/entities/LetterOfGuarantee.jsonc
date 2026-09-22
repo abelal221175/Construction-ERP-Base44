@@ -1,0 +1,96 @@
+{
+  "name": "LetterOfGuarantee",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "lg_number": {
+      "type": "string",
+      "description": "Unique LG number"
+    },
+    "lg_type": {
+      "type": "string",
+      "enum": [
+        "bid_bond",
+        "performance",
+        "advance_payment",
+        "retention"
+      ],
+      "description": "Type of guarantee"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "bank_id": {
+      "type": "string",
+      "description": "Bank business partner ID"
+    },
+    "beneficiary_id": {
+      "type": "string",
+      "description": "Beneficiary business partner ID"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "EGP"
+    },
+    "issue_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "margin_percentage": {
+      "type": "number"
+    },
+    "margin_amount": {
+      "type": "number"
+    },
+    "commission_rate": {
+      "type": "number"
+    },
+    "commission_amount": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "extended",
+        "released",
+        "expired",
+        "claimed"
+      ],
+      "default": "active"
+    },
+    "release_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "release_amount": {
+      "type": "number"
+    },
+    "notes_ar": {
+      "type": "string"
+    },
+    "notes_en": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "lg_number",
+    "lg_type",
+    "bank_id",
+    "beneficiary_id",
+    "amount",
+    "issue_date",
+    "expiry_date"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "name": "TemplateCostBreakdown",
+  "type": "object",
+  "properties": {
+    "template_id": {
+      "type": "string",
+      "description": "Reference to BOQ template"
+    },
+    "cost_element_type": {
+      "type": "string",
+      "enum": [
+        "material",
+        "labor",
+        "equipment",
+        "subcontractor",
+        "misc",
+        "indirect"
+      ],
+      "default": "material"
+    },
+    "resource_id": {
+      "type": "string",
+      "description": "Reference to product/equipment/etc"
+    },
+    "description_ar": {
+      "type": "string"
+    },
+    "description_en": {
+      "type": "string"
+    },
+    "quantity_per_unit": {
+      "type": "number"
+    },
+    "uom_id": {
+      "type": "string"
+    },
+    "unit_cost": {
+      "type": "number"
+    },
+    "total_cost_per_unit": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "template_id",
+    "cost_element_type"
+  ]
+}

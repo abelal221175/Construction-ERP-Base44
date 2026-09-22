@@ -1,0 +1,60 @@
+{
+  "name": "JournalEntry",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "entry_number": {
+      "type": "string"
+    },
+    "entry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "reference_type": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "invoice",
+        "payment",
+        "grn",
+        "ipc",
+        "payroll"
+      ]
+    },
+    "reference_id": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "total_debit": {
+      "type": "number"
+    },
+    "total_credit": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "posted",
+        "reversed"
+      ],
+      "default": "draft"
+    },
+    "posted_by": {
+      "type": "string"
+    },
+    "posted_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "company_id",
+    "entry_number",
+    "entry_date"
+  ]
+}

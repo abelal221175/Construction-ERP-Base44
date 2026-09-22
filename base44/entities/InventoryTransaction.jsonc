@@ -1,0 +1,65 @@
+{
+  "name": "InventoryTransaction",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "warehouse_id": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "transaction_type": {
+      "type": "string",
+      "enum": [
+        "receipt",
+        "issue",
+        "transfer_in",
+        "transfer_out",
+        "adjustment"
+      ],
+      "default": "receipt"
+    },
+    "transaction_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "reference_type": {
+      "type": "string",
+      "enum": [
+        "grn",
+        "material_request",
+        "transfer",
+        "manual"
+      ]
+    },
+    "reference_id": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "number"
+    },
+    "unit_cost": {
+      "type": "number"
+    },
+    "total_cost": {
+      "type": "number"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "warehouse_id",
+    "product_id",
+    "transaction_type",
+    "transaction_date",
+    "quantity"
+  ]
+}

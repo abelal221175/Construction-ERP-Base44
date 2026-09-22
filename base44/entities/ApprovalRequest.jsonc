@@ -1,0 +1,76 @@
+{
+  "name": "ApprovalRequest",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "document_type": {
+      "type": "string",
+      "enum": [
+        "purchase_requisition",
+        "purchase_order",
+        "payment_voucher",
+        "receipt_voucher",
+        "journal_entry",
+        "client_ipc",
+        "subcontractor_ipc",
+        "variation_order"
+      ]
+    },
+    "document_id": {
+      "type": "string",
+      "description": "Reference to the document"
+    },
+    "document_number": {
+      "type": "string"
+    },
+    "workflow_template_id": {
+      "type": "string"
+    },
+    "current_level": {
+      "type": "number",
+      "default": 1
+    },
+    "total_levels": {
+      "type": "number"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "requested_by": {
+      "type": "string"
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "current_approver_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "returned",
+        "delegated"
+      ],
+      "default": "pending"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "document_type",
+    "document_id",
+    "requested_by"
+  ]
+}

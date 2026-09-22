@@ -1,0 +1,78 @@
+{
+  "name": "ClientIPCItem",
+  "type": "object",
+  "properties": {
+    "ipc_id": {
+      "type": "string",
+      "description": "Reference to Client IPC"
+    },
+    "boq_id": {
+      "type": "string",
+      "description": "Reference to Project BOQ item"
+    },
+    "item_code": {
+      "type": "string",
+      "description": "BOQ item code"
+    },
+    "item_description": {
+      "type": "string"
+    },
+    "uom": {
+      "type": "string"
+    },
+    "boq_quantity": {
+      "type": "number",
+      "description": "Original BOQ quantity"
+    },
+    "unit_price": {
+      "type": "number"
+    },
+    "contract_amount": {
+      "type": "number",
+      "description": "boq_quantity \u00d7 unit_price"
+    },
+    "previous_quantity": {
+      "type": "number",
+      "default": 0,
+      "description": "Auto from previous IPC"
+    },
+    "previous_amount": {
+      "type": "number",
+      "default": 0,
+      "description": "Auto from previous IPC"
+    },
+    "current_quantity": {
+      "type": "number",
+      "default": 0,
+      "description": "USER INPUT: measured work this period"
+    },
+    "completion_percentage": {
+      "type": "number",
+      "default": 100,
+      "description": "USER INPUT: approved percentage (0-100)"
+    },
+    "cumulative_quantity": {
+      "type": "number",
+      "description": "Calculated: previous_quantity + current_quantity"
+    },
+    "cumulative_amount": {
+      "type": "number",
+      "description": "Calculated: cumulative_quantity \u00d7 (completion_percentage/100) \u00d7 unit_price"
+    },
+    "current_amount": {
+      "type": "number",
+      "description": "Calculated: cumulative_amount - previous_amount"
+    },
+    "remarks": {
+      "type": "string"
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "ipc_id",
+    "boq_id"
+  ]
+}

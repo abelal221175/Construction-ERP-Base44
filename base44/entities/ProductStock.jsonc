@@ -1,0 +1,35 @@
+{
+  "name": "ProductStock",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Reference to product"
+    },
+    "warehouse_id": {
+      "type": "string",
+      "description": "Reference to warehouse"
+    },
+    "quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "reserved_quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "available_quantity": {
+      "type": "number",
+      "default": 0,
+      "description": "quantity - reserved_quantity"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "product_id",
+    "warehouse_id"
+  ]
+}

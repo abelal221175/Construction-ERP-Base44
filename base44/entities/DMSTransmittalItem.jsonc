@@ -1,0 +1,22 @@
+{
+  "name": "DMSTransmittalItem",
+  "properties": {
+    "copies": {
+      "default": 1,
+      "type": "number"
+    },
+    "revision_id": {
+      "description": "Reference to DMSDocumentRevision",
+      "type": "string"
+    },
+    "transmittal_id": {
+      "description": "Reference to DMSTransmittal",
+      "type": "string"
+    }
+  },
+  "required": [
+    "transmittal_id",
+    "revision_id"
+  ],
+  "type": "object"
+}

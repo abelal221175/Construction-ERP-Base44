@@ -1,0 +1,65 @@
+{
+  "name": "VendorQuotation",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "rfq_id": {
+      "type": "string",
+      "description": "Reference to RFQ"
+    },
+    "vendor_id": {
+      "type": "string",
+      "description": "Reference to vendor business partner"
+    },
+    "quotation_number": {
+      "type": "string"
+    },
+    "quotation_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "validity_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "total_amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "EGP"
+    },
+    "payment_terms": {
+      "type": "string"
+    },
+    "delivery_terms": {
+      "type": "string"
+    },
+    "is_selected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Is this the winning quotation"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "received",
+        "under_review",
+        "selected",
+        "rejected"
+      ],
+      "default": "received"
+    }
+  },
+  "required": [
+    "rfq_id",
+    "vendor_id",
+    "quotation_number",
+    "quotation_date"
+  ]
+}

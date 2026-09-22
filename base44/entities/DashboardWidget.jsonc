@@ -1,0 +1,76 @@
+{
+  "name": "DashboardWidget",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this widget belongs to"
+    },
+    "widget_type": {
+      "type": "string",
+      "enum": [
+        "stat_card",
+        "quick_links",
+        "recent_list",
+        "alerts",
+        "chart"
+      ],
+      "description": "Type of widget"
+    },
+    "title_ar": {
+      "type": "string"
+    },
+    "title_en": {
+      "type": "string"
+    },
+    "entity_name": {
+      "type": "string",
+      "description": "Entity to fetch data from"
+    },
+    "filter_field": {
+      "type": "string",
+      "description": "Field to filter on"
+    },
+    "filter_value": {
+      "type": "string",
+      "description": "Value to filter by"
+    },
+    "display_field": {
+      "type": "string",
+      "description": "Field to display as count or value"
+    },
+    "link_page": {
+      "type": "string",
+      "description": "Page to navigate to on click"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Lucide icon name"
+    },
+    "color": {
+      "type": "string",
+      "description": "Widget accent color"
+    },
+    "position": {
+      "type": "number",
+      "description": "Order position on dashboard"
+    },
+    "size": {
+      "type": "string",
+      "enum": [
+        "small",
+        "medium",
+        "large"
+      ],
+      "default": "small"
+    },
+    "is_visible": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "user_id",
+    "widget_type"
+  ]
+}

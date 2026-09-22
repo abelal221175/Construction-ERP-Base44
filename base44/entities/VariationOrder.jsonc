@@ -1,0 +1,75 @@
+{
+  "name": "VariationOrder",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "vo_number": {
+      "type": "string"
+    },
+    "vo_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "vo_type": {
+      "type": "string",
+      "enum": [
+        "addition",
+        "omission",
+        "modification"
+      ],
+      "default": "addition"
+    },
+    "description": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "requested_by": {
+      "type": "string",
+      "enum": [
+        "client",
+        "consultant",
+        "contractor"
+      ]
+    },
+    "original_amount": {
+      "type": "number"
+    },
+    "revised_amount": {
+      "type": "number"
+    },
+    "variation_amount": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "submitted",
+        "under_review",
+        "approved",
+        "rejected"
+      ],
+      "default": "draft"
+    },
+    "approval_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "project_id",
+    "vo_number",
+    "vo_date"
+  ]
+}

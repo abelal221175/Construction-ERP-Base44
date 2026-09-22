@@ -1,0 +1,50 @@
+{
+  "name": "RFQVendorQuotationItem",
+  "type": "object",
+  "properties": {
+    "quotation_id": {
+      "type": "string",
+      "description": "Reference to RFQ vendor quotation"
+    },
+    "rfq_item_id": {
+      "type": "string",
+      "description": "Reference to RFQ item"
+    },
+    "line_number": {
+      "type": "number"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "description_ar": {
+      "type": "string"
+    },
+    "description_en": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "number"
+    },
+    "uom": {
+      "type": "string"
+    },
+    "unit_price": {
+      "type": "number",
+      "default": 0
+    },
+    "total_price": {
+      "type": "number",
+      "default": 0
+    },
+    "delivery_days": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "quotation_id",
+    "rfq_item_id"
+  ]
+}

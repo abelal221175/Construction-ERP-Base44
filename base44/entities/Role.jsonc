@@ -1,0 +1,39 @@
+{
+  "name": "Role",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "role_code": {
+      "type": "string",
+      "description": "Unique role code"
+    },
+    "role_name_ar": {
+      "type": "string"
+    },
+    "role_name_en": {
+      "type": "string"
+    },
+    "description_ar": {
+      "type": "string"
+    },
+    "description_en": {
+      "type": "string"
+    },
+    "is_system_role": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "role_code",
+    "role_name_ar",
+    "role_name_en"
+  ]
+}

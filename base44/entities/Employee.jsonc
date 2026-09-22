@@ -1,0 +1,66 @@
+{
+  "name": "Employee",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "employee_code": {
+      "type": "string",
+      "description": "Unique employee code"
+    },
+    "employee_name_ar": {
+      "type": "string"
+    },
+    "employee_name_en": {
+      "type": "string"
+    },
+    "national_id": {
+      "type": "string"
+    },
+    "department_id": {
+      "type": "string"
+    },
+    "job_title_ar": {
+      "type": "string"
+    },
+    "job_title_en": {
+      "type": "string"
+    },
+    "hire_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "social_insurance_number": {
+      "type": "string"
+    },
+    "basic_salary": {
+      "type": "number"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "Linked user account"
+    },
+    "current_project_id": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "employee_code",
+    "employee_name_ar",
+    "employee_name_en"
+  ]
+}

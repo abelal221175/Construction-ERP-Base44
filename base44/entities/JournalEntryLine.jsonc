@@ -1,0 +1,40 @@
+{
+  "name": "JournalEntryLine",
+  "type": "object",
+  "properties": {
+    "entry_id": {
+      "type": "string"
+    },
+    "line_no": {
+      "type": "number"
+    },
+    "account_id": {
+      "type": "string"
+    },
+    "cost_center_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "debit_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "credit_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "bp_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "entry_id",
+    "line_no",
+    "account_id"
+  ]
+}

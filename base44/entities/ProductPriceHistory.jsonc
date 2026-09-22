@@ -1,0 +1,38 @@
+{
+  "name": "ProductPriceHistory",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Reference to product"
+    },
+    "supplier_id": {
+      "type": "string",
+      "description": "Reference to supplier"
+    },
+    "price": {
+      "type": "number"
+    },
+    "price_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "po_id": {
+      "type": "string",
+      "description": "Reference to purchase order"
+    },
+    "currency": {
+      "type": "string",
+      "default": "EGP"
+    },
+    "exchange_rate": {
+      "type": "number",
+      "default": 1
+    }
+  },
+  "required": [
+    "product_id",
+    "price",
+    "price_date"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "NumberingSeries",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "document_type": {
+      "type": "string",
+      "description": "Type of document (PR, PO, GRN, JE, PV, RV, etc.)"
+    },
+    "prefix": {
+      "type": "string"
+    },
+    "suffix": {
+      "type": "string"
+    },
+    "current_number": {
+      "type": "number",
+      "default": 0
+    },
+    "number_length": {
+      "type": "number",
+      "default": 4
+    },
+    "reset_period": {
+      "type": "string",
+      "enum": [
+        "never",
+        "yearly",
+        "monthly"
+      ],
+      "default": "yearly"
+    },
+    "last_reset_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "document_type",
+    "prefix"
+  ]
+}

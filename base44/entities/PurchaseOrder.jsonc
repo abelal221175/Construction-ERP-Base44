@@ -1,0 +1,79 @@
+{
+  "name": "PurchaseOrder",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "po_number": {
+      "type": "string",
+      "description": "Unique PO number"
+    },
+    "po_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "supplier_id": {
+      "type": "string",
+      "description": "Supplier business partner ID"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "delivery_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "payment_terms_days": {
+      "type": "number",
+      "default": 30
+    },
+    "subtotal_amount": {
+      "type": "number"
+    },
+    "discount_percentage": {
+      "type": "number",
+      "default": 0
+    },
+    "discount_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "vat_percentage": {
+      "type": "number",
+      "default": 14
+    },
+    "vat_amount": {
+      "type": "number"
+    },
+    "total_amount": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "sent",
+        "partial",
+        "received",
+        "closed",
+        "cancelled"
+      ],
+      "default": "draft"
+    },
+    "notes_ar": {
+      "type": "string"
+    },
+    "notes_en": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "po_number",
+    "po_date",
+    "supplier_id"
+  ]
+}

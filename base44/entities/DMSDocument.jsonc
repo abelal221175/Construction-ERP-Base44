@@ -1,0 +1,72 @@
+{
+  "name": "DMSDocument",
+  "properties": {
+    "company_id": {
+      "description": "Reference to company",
+      "type": "string"
+    },
+    "current_revision_id": {
+      "description": "Reference to latest DMSDocumentRevision",
+      "type": "string"
+    },
+    "discipline": {
+      "enum": [
+        "architectural",
+        "structural",
+        "mep",
+        "civil",
+        "contract",
+        "qa_qc",
+        "hse",
+        "other"
+      ],
+      "type": "string"
+    },
+    "document_number": {
+      "description": "e.g. ARC-DR-0012",
+      "type": "string"
+    },
+    "document_title": {
+      "type": "string"
+    },
+    "document_title_ar": {
+      "type": "string"
+    },
+    "document_type": {
+      "enum": [
+        "drawing",
+        "specification",
+        "method_statement",
+        "contract_doc",
+        "certificate",
+        "correspondence",
+        "other"
+      ],
+      "type": "string"
+    },
+    "is_active": {
+      "default": true,
+      "type": "boolean"
+    },
+    "owner_party": {
+      "enum": [
+        "consultant",
+        "client",
+        "mecg",
+        "subcontractor"
+      ],
+      "type": "string"
+    },
+    "project_id": {
+      "description": "Reference to project",
+      "type": "string"
+    }
+  },
+  "required": [
+    "project_id",
+    "document_number",
+    "document_title",
+    "document_type"
+  ],
+  "type": "object"
+}

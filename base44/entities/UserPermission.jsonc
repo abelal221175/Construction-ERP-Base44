@@ -1,0 +1,29 @@
+{
+  "name": "UserPermission",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to user"
+    },
+    "permission_id": {
+      "type": "string",
+      "description": "Reference to permission"
+    },
+    "granted_by": {
+      "type": "string"
+    },
+    "granted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "user_id",
+    "permission_id"
+  ]
+}

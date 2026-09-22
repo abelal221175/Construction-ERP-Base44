@@ -1,0 +1,53 @@
+{
+  "name": "RolePermission",
+  "type": "object",
+  "properties": {
+    "role_id": {
+      "type": "string",
+      "description": "Reference to role"
+    },
+    "module_id": {
+      "type": "string",
+      "description": "Reference to system module"
+    },
+    "can_view": {
+      "type": "boolean",
+      "default": false
+    },
+    "can_create": {
+      "type": "boolean",
+      "default": false
+    },
+    "can_edit": {
+      "type": "boolean",
+      "default": false
+    },
+    "can_delete": {
+      "type": "boolean",
+      "default": false
+    },
+    "can_approve": {
+      "type": "boolean",
+      "default": false
+    },
+    "can_post": {
+      "type": "boolean",
+      "default": false
+    },
+    "can_export": {
+      "type": "boolean",
+      "default": false
+    },
+    "can_import": {
+      "type": "boolean",
+      "default": false
+    },
+    "approval_limit": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "role_id",
+    "module_id"
+  ]
+}

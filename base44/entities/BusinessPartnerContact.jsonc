@@ -1,0 +1,43 @@
+{
+  "name": "BusinessPartnerContact",
+  "type": "object",
+  "properties": {
+    "bp_id": {
+      "type": "string",
+      "description": "Reference to business partner"
+    },
+    "contact_name_ar": {
+      "type": "string"
+    },
+    "contact_name_en": {
+      "type": "string"
+    },
+    "position_ar": {
+      "type": "string"
+    },
+    "position_en": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "mobile": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "is_primary": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "bp_id"
+  ]
+}

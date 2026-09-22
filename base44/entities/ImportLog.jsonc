@@ -1,0 +1,44 @@
+{
+  "name": "ImportLog",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "module_name": {
+      "type": "string"
+    },
+    "file_name": {
+      "type": "string"
+    },
+    "total_records": {
+      "type": "number",
+      "default": 0
+    },
+    "success_count": {
+      "type": "number",
+      "default": 0
+    },
+    "error_count": {
+      "type": "number",
+      "default": 0
+    },
+    "error_details": {
+      "type": "string",
+      "description": "JSON string of error details"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "partial",
+        "failed"
+      ],
+      "default": "completed"
+    }
+  },
+  "required": [
+    "module_name",
+    "file_name"
+  ]
+}

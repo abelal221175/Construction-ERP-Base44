@@ -1,0 +1,28 @@
+{
+  "name": "VendorProductCategory",
+  "type": "object",
+  "properties": {
+    "vendor_id": {
+      "type": "string",
+      "description": "Reference to vendor"
+    },
+    "product_category_id": {
+      "type": "string",
+      "description": "Reference to product category"
+    },
+    "is_preferred_for_category": {
+      "type": "boolean",
+      "default": false
+    },
+    "discount_percentage": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "vendor_id",
+    "product_category_id"
+  ]
+}

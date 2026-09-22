@@ -1,0 +1,128 @@
+{
+  "name": "Equipment",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "equipment_code": {
+      "type": "string",
+      "description": "Unique equipment code"
+    },
+    "equipment_name_ar": {
+      "type": "string"
+    },
+    "equipment_name_en": {
+      "type": "string"
+    },
+    "equipment_type": {
+      "type": "string"
+    },
+    "ownership_type": {
+      "type": "string",
+      "enum": [
+        "owned",
+        "rented",
+        "leased"
+      ],
+      "description": "Ownership type"
+    },
+    "purchase_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "purchase_cost": {
+      "type": "number"
+    },
+    "supplier_id": {
+      "type": "string",
+      "description": "Supplier business partner ID"
+    },
+    "depreciation_rate": {
+      "type": "number"
+    },
+    "accumulated_depreciation": {
+      "type": "number",
+      "default": 0
+    },
+    "book_value": {
+      "type": "number"
+    },
+    "hourly_rental_rate": {
+      "type": "number"
+    },
+    "daily_rental_rate": {
+      "type": "number"
+    },
+    "monthly_rental_rate": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "available",
+        "in_use",
+        "maintenance",
+        "disposed"
+      ],
+      "default": "available"
+    },
+    "current_project_id": {
+      "type": "string"
+    },
+    "current_location_ar": {
+      "type": "string"
+    },
+    "current_location_en": {
+      "type": "string"
+    },
+    "brand": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "serial_number": {
+      "type": "string"
+    },
+    "year_of_manufacture": {
+      "type": "number"
+    },
+    "capacity": {
+      "type": "string"
+    },
+    "last_maintenance_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "next_maintenance_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "maintenance_interval_days": {
+      "type": "number"
+    },
+    "asset_account_id": {
+      "type": "string",
+      "description": "Asset GL Account ID"
+    },
+    "notes_ar": {
+      "type": "string"
+    },
+    "notes_en": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "equipment_code",
+    "equipment_name_ar",
+    "equipment_name_en",
+    "ownership_type"
+  ]
+}

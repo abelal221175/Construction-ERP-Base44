@@ -1,0 +1,43 @@
+{
+  "name": "StockLevel",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "warehouse_id": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "quantity_on_hand": {
+      "type": "number",
+      "default": 0
+    },
+    "quantity_reserved": {
+      "type": "number",
+      "default": 0
+    },
+    "quantity_available": {
+      "type": "number",
+      "default": 0
+    },
+    "average_cost": {
+      "type": "number"
+    },
+    "last_receipt_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "last_issue_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "company_id",
+    "warehouse_id",
+    "product_id"
+  ]
+}

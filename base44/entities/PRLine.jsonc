@@ -1,0 +1,59 @@
+{
+  "name": "PRLine",
+  "type": "object",
+  "properties": {
+    "pr_id": {
+      "type": "string",
+      "description": "Reference to PR"
+    },
+    "line_no": {
+      "type": "number"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "item_description_ar": {
+      "type": "string"
+    },
+    "item_description_en": {
+      "type": "string"
+    },
+    "requested_quantity": {
+      "type": "number"
+    },
+    "uom_ar": {
+      "type": "string"
+    },
+    "uom_en": {
+      "type": "string"
+    },
+    "estimated_unit_price": {
+      "type": "number"
+    },
+    "estimated_total_price": {
+      "type": "number"
+    },
+    "boq_id": {
+      "type": "string",
+      "description": "Link to BOQ item"
+    },
+    "ordered_quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "line_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "ordered",
+        "cancelled"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "pr_id",
+    "line_no",
+    "requested_quantity"
+  ]
+}

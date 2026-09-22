@@ -1,0 +1,77 @@
+{
+  "name": "Company",
+  "type": "object",
+  "properties": {
+    "company_code": {
+      "type": "string",
+      "description": "Unique company code"
+    },
+    "company_name_ar": {
+      "type": "string",
+      "description": "Company name in Arabic"
+    },
+    "company_name_en": {
+      "type": "string",
+      "description": "Company name in English"
+    },
+    "tax_id": {
+      "type": "string",
+      "description": "Tax identification number"
+    },
+    "commercial_register": {
+      "type": "string",
+      "description": "Commercial registration number"
+    },
+    "base_currency": {
+      "type": "string",
+      "default": "EGP",
+      "description": "Base currency code"
+    },
+    "fiscal_year_start": {
+      "type": "number",
+      "default": 1,
+      "description": "Fiscal year start month (1-12)"
+    },
+    "vat_percentage": {
+      "type": "number",
+      "default": 14,
+      "description": "Default VAT percentage"
+    },
+    "default_retention_percentage": {
+      "type": "number",
+      "default": 10,
+      "description": "Default retention percentage"
+    },
+    "address_ar": {
+      "type": "string",
+      "description": "Address in Arabic"
+    },
+    "address_en": {
+      "type": "string",
+      "description": "Address in English"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "website": {
+      "type": "string"
+    },
+    "logo_url": {
+      "type": "string",
+      "description": "Company logo URL"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_code",
+    "company_name_ar",
+    "company_name_en"
+  ]
+}

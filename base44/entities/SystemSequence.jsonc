@@ -1,0 +1,41 @@
+{
+  "name": "SystemSequence",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "sequence_type": {
+      "type": "string",
+      "description": "Type of sequence (e.g., PR, PO, GRN, IPC)"
+    },
+    "fiscal_year": {
+      "type": "number",
+      "description": "Fiscal year for this sequence"
+    },
+    "prefix": {
+      "type": "string",
+      "description": "Prefix for document numbers"
+    },
+    "current_number": {
+      "type": "number",
+      "default": 0,
+      "description": "Current sequence number"
+    },
+    "number_format": {
+      "type": "string",
+      "default": "{PREFIX}-{YEAR}-{SEQ:4}",
+      "description": "Format pattern for generated numbers"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "sequence_type",
+    "fiscal_year"
+  ]
+}

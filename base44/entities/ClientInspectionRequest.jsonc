@@ -1,0 +1,120 @@
+{
+  "name": "ClientInspectionRequest",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "ir_number": {
+      "type": "string",
+      "description": "Unique IR number (CIR-YYYY-00001)"
+    },
+    "ir_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "project_id": {
+      "type": "string",
+      "description": "Reference to project"
+    },
+    "ipc_period": {
+      "type": "number",
+      "description": "Which IPC period this IR relates to"
+    },
+    "inspection_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Planned physical inspection date"
+    },
+    "inspection_location": {
+      "type": "string"
+    },
+    "pm_id": {
+      "type": "string",
+      "description": "Project Manager employee/user id"
+    },
+    "consultant_id": {
+      "type": "string",
+      "description": "Consultant business partner id"
+    },
+    "consultant_representative": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "Submitted-to-Consultant",
+        "Under-Review",
+        "Inspection-Scheduled",
+        "Inspection-Completed",
+        "Approved",
+        "Rejected",
+        "Revision-Required",
+        "Cancelled"
+      ],
+      "default": "Draft"
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "inspection_completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approval_notes": {
+      "type": "string"
+    },
+    "rejection_reason": {
+      "type": "string"
+    },
+    "total_items": {
+      "type": "number",
+      "default": 0
+    },
+    "total_current_value": {
+      "type": "number",
+      "default": 0
+    },
+    "total_cumulative_value": {
+      "type": "number",
+      "default": 0
+    },
+    "inspection_photos": {
+      "type": "string",
+      "description": "JSON array of photo URLs"
+    },
+    "measurement_sheets": {
+      "type": "string",
+      "description": "JSON array of sheet URLs"
+    },
+    "attachments": {
+      "type": "string",
+      "description": "JSON array of attachment URLs"
+    },
+    "linked_to_ipc_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "notes_ar": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "ir_number",
+    "project_id",
+    "ipc_period",
+    "inspection_date"
+  ]
+}

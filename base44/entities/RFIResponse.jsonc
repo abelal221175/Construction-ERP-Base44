@@ -1,0 +1,44 @@
+{
+  "name": "RFIResponse",
+  "properties": {
+    "attachments": {
+      "description": "JSON array of attachment URLs",
+      "type": "string"
+    },
+    "is_final": {
+      "default": false,
+      "description": "False = interim/partial answer, ball stays with responder's party",
+      "type": "boolean"
+    },
+    "responded_by": {
+      "description": "Employee/user id who answered",
+      "type": "string"
+    },
+    "response_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "response_party": {
+      "enum": [
+        "site",
+        "consultant",
+        "client",
+        "designer"
+      ],
+      "type": "string"
+    },
+    "response_text": {
+      "type": "string"
+    },
+    "rfi_id": {
+      "description": "Reference to RFI",
+      "type": "string"
+    }
+  },
+  "required": [
+    "rfi_id",
+    "response_text",
+    "response_date"
+  ],
+  "type": "object"
+}

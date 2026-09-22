@@ -1,0 +1,82 @@
+{
+  "name": "CostCenter",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "cost_center_code": {
+      "type": "string",
+      "description": "Unique cost center code"
+    },
+    "cost_center_name_ar": {
+      "type": "string"
+    },
+    "cost_center_name_en": {
+      "type": "string"
+    },
+    "parent_cost_center_id": {
+      "type": "string",
+      "description": "Parent cost center for hierarchy"
+    },
+    "hierarchy_level": {
+      "type": "number",
+      "description": "Level in hierarchy"
+    },
+    "cost_center_type": {
+      "type": "string",
+      "enum": [
+        "company",
+        "department",
+        "project",
+        "boq_item",
+        "cost_element"
+      ],
+      "description": "Type of cost center"
+    },
+    "full_path": {
+      "type": "string"
+    },
+    "department_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "boq_id": {
+      "type": "string"
+    },
+    "cost_element_type_id": {
+      "type": "string"
+    },
+    "budget_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "actual_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "committed_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "is_auto_created": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "company_id",
+    "cost_center_code",
+    "cost_center_name_ar",
+    "cost_center_name_en",
+    "hierarchy_level",
+    "cost_center_type"
+  ]
+}

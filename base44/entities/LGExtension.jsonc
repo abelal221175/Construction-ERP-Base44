@@ -1,0 +1,52 @@
+{
+  "name": "LGExtension",
+  "type": "object",
+  "properties": {
+    "lg_id": {
+      "type": "string",
+      "description": "Reference to letter of guarantee"
+    },
+    "extension_number": {
+      "type": "number"
+    },
+    "extension_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "previous_expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "new_expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "extension_reason_ar": {
+      "type": "string"
+    },
+    "extension_reason_en": {
+      "type": "string"
+    },
+    "additional_commission": {
+      "type": "number"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "document_path": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "lg_id",
+    "extension_date",
+    "new_expiry_date"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "ApprovalAction",
+  "type": "object",
+  "properties": {
+    "approval_request_id": {
+      "type": "string",
+      "description": "Reference to approval request"
+    },
+    "level_number": {
+      "type": "number"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "approve",
+        "reject",
+        "return",
+        "delegate"
+      ],
+      "default": "approve"
+    },
+    "action_by": {
+      "type": "string"
+    },
+    "action_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "delegated_to": {
+      "type": "string"
+    },
+    "comments": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "approval_request_id",
+    "level_number",
+    "action",
+    "action_by"
+  ]
+}

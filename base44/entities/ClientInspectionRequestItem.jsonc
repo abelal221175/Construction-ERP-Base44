@@ -1,0 +1,86 @@
+{
+  "name": "ClientInspectionRequestItem",
+  "type": "object",
+  "properties": {
+    "ir_id": {
+      "type": "string",
+      "description": "Reference to ClientInspectionRequest"
+    },
+    "boq_item_id": {
+      "type": "string",
+      "description": "Reference to ProjectBOQ item"
+    },
+    "boq_code": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "previous_cumulative_quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "current_quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "cumulative_quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "previous_completion_percentage": {
+      "type": "number",
+      "default": 0
+    },
+    "current_completion_percentage": {
+      "type": "number",
+      "default": 0
+    },
+    "unit_id": {
+      "type": "string"
+    },
+    "measurement_method": {
+      "type": "string",
+      "enum": [
+        "Linear",
+        "Area",
+        "Volume",
+        "Count"
+      ]
+    },
+    "measurement_details": {
+      "type": "string",
+      "description": "JSON {length,width,height}"
+    },
+    "location_description": {
+      "type": "string"
+    },
+    "measurement_photos": {
+      "type": "string",
+      "description": "JSON array of photo URLs"
+    },
+    "consultant_verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "consultant_notes": {
+      "type": "string"
+    },
+    "disputed": {
+      "type": "boolean",
+      "default": false
+    },
+    "dispute_reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "ir_id",
+    "boq_item_id",
+    "current_quantity",
+    "current_completion_percentage"
+  ]
+}

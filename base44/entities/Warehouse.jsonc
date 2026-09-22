@@ -1,0 +1,64 @@
+{
+  "name": "Warehouse",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "warehouse_code": {
+      "type": "string",
+      "description": "Unique warehouse code"
+    },
+    "warehouse_name_ar": {
+      "type": "string"
+    },
+    "warehouse_name_en": {
+      "type": "string"
+    },
+    "warehouse_type": {
+      "type": "string",
+      "enum": [
+        "main",
+        "site",
+        "transit"
+      ],
+      "default": "main"
+    },
+    "address_ar": {
+      "type": "string"
+    },
+    "address_en": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string",
+      "description": "Associated project (for site warehouses)"
+    },
+    "manager_id": {
+      "type": "string",
+      "description": "Warehouse manager user ID"
+    },
+    "custodian_id": {
+      "type": "string",
+      "description": "Warehouse custodian user ID"
+    },
+    "location_ar": {
+      "type": "string"
+    },
+    "location_en": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "warehouse_code",
+    "warehouse_name_ar",
+    "warehouse_name_en",
+    "warehouse_type"
+  ]
+}

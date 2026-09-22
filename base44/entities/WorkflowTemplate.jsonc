@@ -1,0 +1,37 @@
+{
+  "name": "WorkflowTemplate",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "document_type": {
+      "type": "string",
+      "enum": [
+        "purchase_requisition",
+        "purchase_order",
+        "payment_voucher",
+        "receipt_voucher",
+        "journal_entry",
+        "client_ipc",
+        "subcontractor_ipc",
+        "variation_order"
+      ],
+      "description": "Type of document requiring approval"
+    },
+    "template_name_ar": {
+      "type": "string"
+    },
+    "template_name_en": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "document_type"
+  ]
+}

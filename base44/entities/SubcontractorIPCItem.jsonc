@@ -1,0 +1,75 @@
+{
+  "name": "SubcontractorIPCItem",
+  "type": "object",
+  "properties": {
+    "ipc_id": {
+      "type": "string",
+      "description": "Reference to Subcontractor IPC"
+    },
+    "subcontract_boq_id": {
+      "type": "string",
+      "description": "Reference to Subcontract BOQ item"
+    },
+    "project_boq_id": {
+      "type": "string",
+      "description": "Reference to original Project BOQ item (for back-to-back)"
+    },
+    "item_code": {
+      "type": "string"
+    },
+    "item_description": {
+      "type": "string"
+    },
+    "uom": {
+      "type": "string"
+    },
+    "contract_quantity": {
+      "type": "number",
+      "description": "Subcontract BOQ quantity (can be partial of main BOQ)"
+    },
+    "unit_price": {
+      "type": "number"
+    },
+    "contract_amount": {
+      "type": "number"
+    },
+    "previous_quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "previous_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "current_quantity": {
+      "type": "number",
+      "default": 0,
+      "description": "USER INPUT"
+    },
+    "completion_percentage": {
+      "type": "number",
+      "default": 100,
+      "description": "USER INPUT"
+    },
+    "cumulative_quantity": {
+      "type": "number"
+    },
+    "cumulative_amount": {
+      "type": "number"
+    },
+    "current_amount": {
+      "type": "number"
+    },
+    "remarks": {
+      "type": "string"
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "ipc_id",
+    "subcontract_boq_id"
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "name": "SubcontractorPayment",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "subcontract_id": {
+      "type": "string",
+      "description": "Reference to subcontract"
+    },
+    "ipc_id": {
+      "type": "string",
+      "description": "Reference to subcontractor IPC"
+    },
+    "payment_number": {
+      "type": "string",
+      "description": "Unique payment number"
+    },
+    "payment_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "payment_type": {
+      "type": "string",
+      "enum": [
+        "advance",
+        "progress",
+        "retention_release",
+        "final"
+      ],
+      "default": "progress"
+    },
+    "payment_method": {
+      "type": "string",
+      "enum": [
+        "cash",
+        "check",
+        "transfer"
+      ],
+      "default": "transfer"
+    },
+    "bank_account_id": {
+      "type": "string",
+      "description": "Reference to bank account"
+    },
+    "check_number": {
+      "type": "string"
+    },
+    "check_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "gross_amount": {
+      "type": "number"
+    },
+    "tax_deduction": {
+      "type": "number",
+      "default": 0,
+      "description": "Withholding tax deduction"
+    },
+    "other_deductions": {
+      "type": "number",
+      "default": 0
+    },
+    "net_amount": {
+      "type": "number"
+    },
+    "reference": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "paid",
+        "cancelled"
+      ],
+      "default": "draft"
+    }
+  },
+  "required": [
+    "company_id",
+    "subcontract_id",
+    "payment_number",
+    "payment_date",
+    "payment_type",
+    "gross_amount"
+  ]
+}

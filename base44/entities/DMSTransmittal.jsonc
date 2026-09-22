@@ -1,0 +1,57 @@
+{
+  "name": "DMSTransmittal",
+  "properties": {
+    "acknowledged": {
+      "default": false,
+      "type": "boolean"
+    },
+    "acknowledged_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "company_id": {
+      "description": "Reference to company",
+      "type": "string"
+    },
+    "cover_note": {
+      "type": "string"
+    },
+    "from_party": {
+      "type": "string"
+    },
+    "project_id": {
+      "description": "Reference to project",
+      "type": "string"
+    },
+    "purpose": {
+      "enum": [
+        "for_review",
+        "for_approval",
+        "for_information",
+        "for_construction",
+        "for_action"
+      ],
+      "type": "string"
+    },
+    "to_party": {
+      "type": "string"
+    },
+    "transmittal_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "transmittal_number": {
+      "description": "TRN-PROJ-0001",
+      "type": "string"
+    }
+  },
+  "required": [
+    "project_id",
+    "transmittal_number",
+    "transmittal_date",
+    "from_party",
+    "to_party",
+    "purpose"
+  ],
+  "type": "object"
+}

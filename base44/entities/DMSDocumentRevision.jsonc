@@ -1,0 +1,54 @@
+{
+  "name": "DMSDocumentRevision",
+  "properties": {
+    "document_id": {
+      "description": "Reference to DMSDocument",
+      "type": "string"
+    },
+    "file_size_kb": {
+      "type": "number"
+    },
+    "file_url": {
+      "type": "string"
+    },
+    "issued_by": {
+      "description": "Employee/user id",
+      "type": "string"
+    },
+    "issued_date": {
+      "format": "date",
+      "type": "string"
+    },
+    "revision_code": {
+      "description": "A, B, 0, 1, 2...",
+      "type": "string"
+    },
+    "revision_notes": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "ifi",
+        "ifr",
+        "ifa",
+        "ifc",
+        "afc",
+        "as_built",
+        "superseded"
+      ],
+      "type": "string"
+    },
+    "superseded_by_revision_id": {
+      "description": "Reference to the revision that replaces this one",
+      "type": "string"
+    }
+  },
+  "required": [
+    "document_id",
+    "revision_code",
+    "status",
+    "file_url",
+    "issued_date"
+  ],
+  "type": "object"
+}

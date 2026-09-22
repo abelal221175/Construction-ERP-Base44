@@ -1,0 +1,43 @@
+{
+  "name": "LoginHistory",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to user"
+    },
+    "login_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "logout_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ip_address": {
+      "type": "string"
+    },
+    "device_info": {
+      "type": "string"
+    },
+    "browser": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed"
+      ],
+      "default": "success"
+    },
+    "failure_reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "user_id",
+    "login_time",
+    "status"
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "name": "Product",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "category_id": {
+      "type": "string",
+      "description": "Product category ID"
+    },
+    "product_code": {
+      "type": "string",
+      "description": "Unique product code"
+    },
+    "product_name_ar": {
+      "type": "string",
+      "description": "Product name in Arabic"
+    },
+    "product_name_en": {
+      "type": "string",
+      "description": "Product name in English"
+    },
+    "brief_description_ar": {
+      "type": "string"
+    },
+    "brief_description_en": {
+      "type": "string"
+    },
+    "brand": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "specifications_ar": {
+      "type": "string"
+    },
+    "specifications_en": {
+      "type": "string"
+    },
+    "uom_ar": {
+      "type": "string",
+      "description": "Unit of measure in Arabic"
+    },
+    "uom_en": {
+      "type": "string",
+      "description": "Unit of measure in English"
+    },
+    "secondary_uom_ar": {
+      "type": "string"
+    },
+    "secondary_uom_en": {
+      "type": "string"
+    },
+    "conversion_factor": {
+      "type": "number",
+      "default": 1
+    },
+    "standard_price": {
+      "type": "number"
+    },
+    "standard_cost": {
+      "type": "number"
+    },
+    "last_purchase_price": {
+      "type": "number"
+    },
+    "last_purchase_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "average_cost": {
+      "type": "number"
+    },
+    "current_stock": {
+      "type": "number",
+      "default": 0
+    },
+    "min_stock_level": {
+      "type": "number"
+    },
+    "max_stock_level": {
+      "type": "number"
+    },
+    "reorder_point": {
+      "type": "number"
+    },
+    "barcode": {
+      "type": "string"
+    },
+    "hs_code": {
+      "type": "string"
+    },
+    "origin_country": {
+      "type": "string"
+    },
+    "inventory_account_id": {
+      "type": "string",
+      "description": "Inventory GL Account ID"
+    },
+    "expense_account_id": {
+      "type": "string",
+      "description": "Expense GL Account ID"
+    },
+    "preferred_supplier_id": {
+      "type": "string",
+      "description": "Preferred supplier business partner ID"
+    },
+    "search_keywords": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_id",
+    "product_code",
+    "product_name_ar",
+    "product_name_en"
+  ]
+}

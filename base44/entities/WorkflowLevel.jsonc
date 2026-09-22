@@ -1,0 +1,52 @@
+{
+  "name": "WorkflowLevel",
+  "type": "object",
+  "properties": {
+    "workflow_template_id": {
+      "type": "string",
+      "description": "Reference to workflow template"
+    },
+    "level_number": {
+      "type": "number",
+      "description": "Sequential level (1, 2, 3...)"
+    },
+    "approver_type": {
+      "type": "string",
+      "enum": [
+        "specific_user",
+        "role",
+        "department_head"
+      ],
+      "default": "specific_user"
+    },
+    "approver_id": {
+      "type": "string",
+      "description": "User ID or Role ID based on approver_type"
+    },
+    "department_id": {
+      "type": "string",
+      "description": "Department ID if approver_type is department_head"
+    },
+    "amount_from": {
+      "type": "number",
+      "description": "Minimum amount threshold"
+    },
+    "amount_to": {
+      "type": "number",
+      "description": "Maximum amount threshold"
+    },
+    "can_skip_below_threshold": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "workflow_template_id",
+    "level_number",
+    "approver_type"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "SubcontractorWorkCategory",
+  "type": "object",
+  "properties": {
+    "subcontractor_id": {
+      "type": "string",
+      "description": "Reference to subcontractor"
+    },
+    "work_category_id": {
+      "type": "string",
+      "description": "Reference to work category"
+    },
+    "specialization_ar": {
+      "type": "string"
+    },
+    "specialization_en": {
+      "type": "string"
+    },
+    "is_preferred_for_category": {
+      "type": "boolean",
+      "default": false
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "subcontractor_id",
+    "work_category_id"
+  ]
+}

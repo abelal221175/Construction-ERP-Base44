@@ -1,0 +1,83 @@
+{
+  "name": "PurchaseRequisition",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "pr_number": {
+      "type": "string",
+      "description": "Unique PR number"
+    },
+    "pr_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "pr_type": {
+      "type": "string",
+      "enum": [
+        "material",
+        "equipment",
+        "service"
+      ],
+      "default": "material"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "requested_by": {
+      "type": "string",
+      "description": "User who requested"
+    },
+    "required_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "urgent",
+        "high",
+        "normal",
+        "low"
+      ],
+      "default": "normal"
+    },
+    "estimated_total_cost": {
+      "type": "number"
+    },
+    "purpose_ar": {
+      "type": "string"
+    },
+    "purpose_en": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "submitted",
+        "approved",
+        "rejected",
+        "ordered",
+        "closed"
+      ],
+      "default": "draft"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "company_id",
+    "pr_number",
+    "pr_date",
+    "requested_by",
+    "required_date"
+  ]
+}

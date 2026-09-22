@@ -1,0 +1,55 @@
+{
+  "name": "PaymentVoucher",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "voucher_number": {
+      "type": "string"
+    },
+    "voucher_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "payment_type": {
+      "type": "string",
+      "enum": [
+        "cash",
+        "check",
+        "transfer"
+      ],
+      "default": "transfer"
+    },
+    "bp_id": {
+      "type": "string"
+    },
+    "bank_account_id": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "reference": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "posted"
+      ],
+      "default": "draft"
+    }
+  },
+  "required": [
+    "company_id",
+    "voucher_number",
+    "voucher_date",
+    "amount"
+  ]
+}

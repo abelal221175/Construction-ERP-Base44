@@ -1,0 +1,67 @@
+{
+  "name": "RFQ",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "rfq_number": {
+      "type": "string"
+    },
+    "rfq_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "tender_id": {
+      "type": "string"
+    },
+    "response_deadline": {
+      "type": "string",
+      "format": "date"
+    },
+    "rfq_type": {
+      "type": "string",
+      "enum": [
+        "material",
+        "subcontractor",
+        "equipment",
+        "service",
+        "mixed"
+      ],
+      "default": "mixed",
+      "description": "Type of RFQ based on cost elements"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "cost_breakdown",
+        "boq"
+      ],
+      "default": "manual",
+      "description": "How this RFQ was created"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "sent",
+        "received",
+        "evaluated",
+        "closed"
+      ],
+      "default": "draft"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "rfq_number",
+    "rfq_date"
+  ]
+}

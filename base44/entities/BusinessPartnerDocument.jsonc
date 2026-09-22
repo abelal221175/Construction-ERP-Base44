@@ -1,0 +1,38 @@
+{
+  "name": "BusinessPartnerDocument",
+  "type": "object",
+  "properties": {
+    "bp_id": {
+      "type": "string",
+      "description": "Reference to business partner"
+    },
+    "document_type": {
+      "type": "string",
+      "enum": [
+        "license",
+        "certificate",
+        "contract",
+        "insurance",
+        "other"
+      ]
+    },
+    "document_name": {
+      "type": "string"
+    },
+    "file_url": {
+      "type": "string"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "bp_id",
+    "document_type"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "name": "GRNLine",
+  "type": "object",
+  "properties": {
+    "grn_id": {
+      "type": "string",
+      "description": "Reference to GRN"
+    },
+    "po_line_id": {
+      "type": "string",
+      "description": "Reference to PO line"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "ordered_quantity": {
+      "type": "number"
+    },
+    "received_quantity": {
+      "type": "number"
+    },
+    "accepted_quantity": {
+      "type": "number"
+    },
+    "rejected_quantity": {
+      "type": "number"
+    },
+    "quality_check_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "passed",
+        "failed"
+      ],
+      "default": "pending"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "grn_id",
+    "po_line_id",
+    "received_quantity"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "ProductSupplier",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Reference to product"
+    },
+    "supplier_id": {
+      "type": "string",
+      "description": "Reference to supplier"
+    },
+    "supplier_product_code": {
+      "type": "string"
+    },
+    "supplier_unit_price": {
+      "type": "number"
+    },
+    "last_purchase_price": {
+      "type": "number"
+    },
+    "last_purchase_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "lead_time_days": {
+      "type": "number"
+    },
+    "min_order_quantity": {
+      "type": "number"
+    },
+    "is_preferred": {
+      "type": "boolean",
+      "default": false
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "product_id",
+    "supplier_id"
+  ]
+}

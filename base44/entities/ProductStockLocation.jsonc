@@ -1,0 +1,39 @@
+{
+  "name": "ProductStockLocation",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Reference to product"
+    },
+    "warehouse_id": {
+      "type": "string",
+      "description": "Reference to warehouse"
+    },
+    "location_code": {
+      "type": "string",
+      "description": "Bin/shelf location"
+    },
+    "quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "reserved_quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "available_quantity": {
+      "type": "number",
+      "default": 0,
+      "description": "Calculated: quantity - reserved_quantity"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "product_id",
+    "warehouse_id"
+  ]
+}

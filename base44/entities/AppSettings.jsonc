@@ -1,0 +1,41 @@
+{
+  "name": "AppSettings",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this setting belongs to"
+    },
+    "current_company_id": {
+      "type": "string",
+      "description": "Currently selected company"
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "ar",
+        "en"
+      ],
+      "default": "ar"
+    },
+    "theme": {
+      "type": "string",
+      "enum": [
+        "light",
+        "dark"
+      ],
+      "default": "light"
+    },
+    "sidebar_collapsed": {
+      "type": "boolean",
+      "default": false
+    },
+    "dashboard_widgets": {
+      "type": "string",
+      "description": "JSON array of widget ids selected for the user's custom home dashboard"
+    }
+  },
+  "required": [
+    "user_id"
+  ]
+}

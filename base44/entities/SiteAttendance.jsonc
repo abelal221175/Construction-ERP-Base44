@@ -1,0 +1,89 @@
+{
+  "name": "SiteAttendance",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "Reference to company"
+    },
+    "employee_id": {
+      "type": "string",
+      "description": "Employee id (or user id)"
+    },
+    "employee_name": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string",
+      "description": "Reference to project"
+    },
+    "attendance_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "check_in_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "check_in_latitude": {
+      "type": "number"
+    },
+    "check_in_longitude": {
+      "type": "number"
+    },
+    "check_in_location_name": {
+      "type": "string"
+    },
+    "check_in_photo_url": {
+      "type": "string"
+    },
+    "check_out_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "check_out_latitude": {
+      "type": "number"
+    },
+    "check_out_longitude": {
+      "type": "number"
+    },
+    "check_out_location_name": {
+      "type": "string"
+    },
+    "check_out_photo_url": {
+      "type": "string"
+    },
+    "work_hours": {
+      "type": "number"
+    },
+    "overtime_hours": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Present",
+        "Absent",
+        "Late",
+        "Half-Day",
+        "On-Leave"
+      ],
+      "default": "Present"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "employee_id",
+    "project_id",
+    "attendance_date"
+  ]
+}

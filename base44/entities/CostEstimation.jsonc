@@ -1,0 +1,116 @@
+{
+  "name": "CostEstimation",
+  "type": "object",
+  "properties": {
+    "boq_id": {
+      "type": "string",
+      "description": "Reference to Project BOQ item"
+    },
+    "version": {
+      "type": "number",
+      "default": 1
+    },
+    "is_current": {
+      "type": "boolean",
+      "default": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "submitted",
+        "under_review",
+        "approved",
+        "rejected"
+      ],
+      "default": "draft"
+    },
+    "material_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "subcontractor_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "labor_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "equipment_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "services_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "indirect_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "dry_cost_per_unit": {
+      "type": "number",
+      "description": "Sum of all cost elements per unit"
+    },
+    "total_dry_cost": {
+      "type": "number",
+      "description": "dry_cost_per_unit \u00d7 BOQ quantity"
+    },
+    "markup_percentage": {
+      "type": "number",
+      "description": "User input - two-way linked with selling price"
+    },
+    "unit_selling_price": {
+      "type": "number",
+      "description": "User input - two-way linked with markup"
+    },
+    "total_selling_price": {
+      "type": "number"
+    },
+    "profit_amount": {
+      "type": "number"
+    },
+    "is_linked_to_boq": {
+      "type": "boolean",
+      "default": false,
+      "description": "When true, BOQ price syncs with selling price"
+    },
+    "imported_from_template_id": {
+      "type": "string"
+    },
+    "saved_as_template_id": {
+      "type": "string"
+    },
+    "revision_notes": {
+      "type": "string"
+    },
+    "rejection_reason": {
+      "type": "string"
+    },
+    "submitted_by": {
+      "type": "string"
+    },
+    "submitted_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewed_by": {
+      "type": "string"
+    },
+    "reviewed_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "boq_id"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "EquipmentMaintenance",
+  "type": "object",
+  "properties": {
+    "equipment_id": {
+      "type": "string",
+      "description": "Reference to equipment"
+    },
+    "maintenance_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "maintenance_type": {
+      "type": "string",
+      "enum": [
+        "preventive",
+        "corrective",
+        "inspection"
+      ],
+      "default": "preventive"
+    },
+    "description": {
+      "type": "string"
+    },
+    "cost": {
+      "type": "number"
+    },
+    "vendor_id": {
+      "type": "string",
+      "description": "Reference to vendor"
+    },
+    "next_maintenance_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "performed_by": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "equipment_id",
+    "maintenance_date",
+    "maintenance_type"
+  ]
+}

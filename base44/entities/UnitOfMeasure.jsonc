@@ -1,0 +1,40 @@
+{
+  "name": "UnitOfMeasure",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "uom_code": {
+      "type": "string",
+      "description": "Unique UOM code"
+    },
+    "uom_name_ar": {
+      "type": "string"
+    },
+    "uom_name_en": {
+      "type": "string"
+    },
+    "uom_type": {
+      "type": "string",
+      "enum": [
+        "length",
+        "area",
+        "volume",
+        "weight",
+        "quantity",
+        "time"
+      ],
+      "default": "quantity"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "uom_code",
+    "uom_name_ar",
+    "uom_name_en"
+  ]
+}
