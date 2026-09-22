@@ -97,6 +97,15 @@ export default function CostBreakdownModal({ open, onClose, boqItem }) {
   const [showRFQModal, setShowRFQModal] = useState(false);
   const [showHistoryDialog, setShowHistoryDialog] = useState(false);
 
+  // Enhanced pricing matrix state
+  const [gaOverhead, setGaOverhead] = useState(0);           // G&A Overhead
+  const [gaOverheadType, setGaOverheadType] = useState('percentage'); // 'percentage' | 'lumpsum'
+  const [mwReserve, setMwReserve] = useState(0);             // Maintenance & Warranty Reserve
+  const [mwReserveType, setMwReserveType] = useState('percentage');
+  const [targetProfit, setTargetProfit] = useState(0);      // Target Profit Margin
+  const [targetProfitType, setTargetProfitType] = useState('percentage');
+  const [directExpenses, setDirectExpenses] = useState(0);   // Direct Expenses & Site Overhead (lump sum)
+
   // Queries
   const { data: allEstimations = [] } = useQuery({
     queryKey: ['costEstimations', boqItem?.id],
@@ -167,6 +176,13 @@ export default function CostBreakdownModal({ open, onClose, boqItem }) {
     if (currentEstimation) {
       setMarkup(currentEstimation.markup_percentage || 40);
       setSellingPrice(currentEstimation.unit_selling_price || boqItem?.unit_price || 0);
+      setGaOverhead(currentEstimation.ga_overhead || 0);
+      setGaOverheadType(currentEstimation.ga_overhead_type || 'percentage');
+      setMwReserve(currentEstimation.mw_reserve || 0);
+      setMwReserveType(currentEstimation.mw_reserve_type || 'percentage');
+      setTargetProfit(currentEstimation.target_profit || currentEstimation.markup_percentage || 0);
+      setTargetProfitType(currentEstimation.target_profit_type || 'percentage');
+      setDirectExpenses(currentEstimation.direct_expenses || 0);
     } else {
       setSellingPrice(boqItem?.unit_price || 0);
     }
@@ -180,36 +196,53 @@ export default function CostBreakdownModal({ open, onClose, boqItem }) {
   }, [details]);
 
   const totalDryCost = dryCostPerUnit * boqQuantity;
-  const profitPerUnit = sellingPrice - dryCostPerUnit;
+
+  // --- DoubleClick Pricing Calculation Matrix ---
+  // Dry Cost = SUM(Material + Labor + Equipment + Subcontractor + Direct Expenses + Site Overhead)
+  const dryCostWithExpenses = dryCostPerUnit + (parseFloat(directExpenses) || 0);
+
+  // G&A Overhead amount (per unit)
+  const gaOverheadAmount = gaOverheadType === 'percentage'
+    ? dryCostWithExpenses * (parseFloat(gaOverhead) || 0) / 100
+    : parseFloat(gaOverhead) || 0;
+
+  // Maintenance & Warranty Reserve amount (per unit)
+  const mwReserveAmount = mwReserveType === 'percentage'
+    ? dryCostWithExpenses * (parseFloat(mwReserve) || 0) / 100
+    : parseFloat(mwReserve) || 0;
+
+  // Target Profit amount (per unit) - computed from dry cost + overheads
+  const costBeforeProfit = dryCostWithExpenses + gaOverheadAmount + mwReserveAmount;
+  const targetProfitAmount = targetProfitType === 'percentage'
+    ? costBeforeProfit * (parseFloat(targetProfit) || 0) / 100
+    : parseFloat(targetProfit) || 0;
+
+  // Final Selling Price = Dry Cost + G&A + M&W Reserve + Profit
+  const computedSellingPrice = costBeforeProfit + targetProfitAmount;
+  const profitPerUnit = sellingPrice - dryCostWithExpenses - gaOverheadAmount - mwReserveAmount;
   const totalProfit = profitPerUnit * boqQuantity;
   const profitMargin = sellingPrice > 0 ? (profitPerUnit / sellingPrice) * 100 : 0;
 
-  // Two-way pricing
-  const handleMarkupChange = (val) => {
-    const markupVal = parseFloat(val) || 0;
-    setMarkup(markupVal);
-    if (dryCostPerUnit > 0) {
-      setSellingPrice(Math.round(dryCostPerUnit * (1 + markupVal / 100) * 100) / 100);
+  // Two-way pricing: update selling price when cost components change
+  useEffect(() => {
+    const newSelling = costBeforeProfit + targetProfitAmount;
+    if (Math.abs(newSelling - sellingPrice) > 0.01) {
+      setSellingPrice(Math.round(newSelling * 100) / 100);
     }
-  };
+  }, [dryCostWithExpenses, gaOverhead, gaOverheadType, mwReserve, mwReserveType, targetProfit, targetProfitType, directExpenses]);
 
+  // If selling price is manually modified, recalculate profit margin % automatically
   const handleSellingPriceChange = (val) => {
     const priceVal = parseFloat(val) || 0;
     setSellingPrice(priceVal);
-    if (dryCostPerUnit > 0) {
-      setMarkup(Math.round(((priceVal - dryCostPerUnit) / dryCostPerUnit) * 100 * 100) / 100);
+    // Back-calculate profit margin % from the manually entered selling price
+    if (costBeforeProfit > 0) {
+      const impliedProfit = priceVal - costBeforeProfit;
+      const impliedPct = (impliedProfit / costBeforeProfit) * 100;
+      setTargetProfit(Math.round(impliedPct * 100) / 100);
+      setTargetProfitType('percentage');
     }
   };
-
-  // Recalculate when dry cost changes
-  useEffect(() => {
-    if (dryCostPerUnit > 0 && markup >= 0) {
-      const newSelling = dryCostPerUnit * (1 + markup / 100);
-      if (Math.abs(newSelling - sellingPrice) > 0.01) {
-        setSellingPrice(Math.round(newSelling * 100) / 100);
-      }
-    }
-  }, [dryCostPerUnit]);
 
   const getCostsByType = (type) => details.filter(d => d.cost_element_type === type);
   const getTotalByType = (type) => getCostsByType(type).reduce((sum, d) => sum + (parseFloat(d.total_per_unit) || 0), 0);
@@ -500,6 +533,16 @@ export default function CostBreakdownModal({ open, onClose, boqItem }) {
         dry_cost_per_unit: dryCostPerUnit,
         total_dry_cost: totalDryCost,
         markup_percentage: markup,
+        direct_expenses: directExpenses,
+        ga_overhead: gaOverhead,
+        ga_overhead_type: gaOverheadType,
+        ga_overhead_amount: gaOverheadAmount,
+        mw_reserve: mwReserve,
+        mw_reserve_type: mwReserveType,
+        mw_reserve_amount: mwReserveAmount,
+        target_profit: targetProfit,
+        target_profit_type: targetProfitType,
+        target_profit_amount: targetProfitAmount,
         unit_selling_price: sellingPrice,
         total_selling_price: sellingPrice * boqQuantity,
         profit_amount: totalProfit,
@@ -821,35 +864,110 @@ export default function CostBreakdownModal({ open, onClose, boqItem }) {
               <h3 className="font-semibold text-slate-800">{language === 'ar' ? 'هيكل تحليل التكلفة' : 'Cost Breakdown Structure'}</h3>
             </div>
 
-            <div className="space-y-4 flex-1">
-              {/* Unit Cost */}
+            <div className="space-y-3 flex-1 overflow-y-auto">
+              {/* Dry Cost */}
               <div>
-                <Label className="text-xs text-slate-500">{language === 'ar' ? 'تكلفة الوحدة' : 'Unit Cost'}</Label>
-                <div className="text-lg font-bold text-slate-800 font-mono">EGP {formatNumber(dryCostPerUnit, 2)}</div>
+                <Label className="text-xs text-slate-500">{language === 'ar' ? 'التكلفة الجافة' : 'Dry Cost'}</Label>
+                <div className="text-lg font-bold text-slate-800 font-mono">EGP {formatNumber(dryCostWithExpenses, 2)}</div>
               </div>
 
-              {/* Total Cost */}
+              {/* Direct Expenses & Site Overhead */}
               <div>
-                <Label className="text-xs text-slate-500">{language === 'ar' ? 'إجمالي التكلفة' : 'Total Cost'}</Label>
-                <div className="text-lg font-bold text-slate-800 font-mono">EGP {formatNumber(totalDryCost, 2)}</div>
+                <Label className="text-xs text-slate-500">{language === 'ar' ? 'مصاريف مباشرة وعلاوات موقع' : 'Direct Expenses & Site OH'}</Label>
+                <Input
+                  type="number"
+                  step="0.01"
+                  value={directExpenses || ''}
+                  onChange={(e) => setDirectExpenses(parseFloat(e.target.value) || 0)}
+                  className="mt-1 font-mono h-8"
+                  disabled={!isEditable}
+                  placeholder="0.00"
+                />
               </div>
 
               <Separator />
 
-              {/* Profit Margin % */}
+              {/* G&A Overhead */}
               <div>
-                <Label className="text-xs text-slate-500 flex items-center gap-1">
-                  {language === 'ar' ? 'نسبة هامش الربح (%)' : 'Profit Margin (%)'}
-                  <span className="text-amber-500">🔗</span>
-                </Label>
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs text-slate-500">{language === 'ar' ? 'مصاريف إدارية وعمومية' : 'G&A Overhead'}</Label>
+                  <Select value={gaOverheadType} onValueChange={setGaOverheadType} disabled={!isEditable}>
+                    <SelectTrigger className="h-6 w-24 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="percentage">%</SelectItem>
+                      <SelectItem value="lumpsum">{language === 'ar' ? 'مبلغ' : 'Lump'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 <Input
                   type="number"
-                  step="0.1"
-                  value={markup}
-                  onChange={(e) => handleMarkupChange(e.target.value)}
-                  className="mt-1 font-mono"
+                  step="0.01"
+                  value={gaOverhead || ''}
+                  onChange={(e) => setGaOverhead(parseFloat(e.target.value) || 0)}
+                  className="mt-1 font-mono h-8"
                   disabled={!isEditable}
+                  placeholder="0"
                 />
+                <div className="text-xs text-slate-500 mt-0.5 font-mono">= EGP {formatNumber(gaOverheadAmount, 2)}</div>
+              </div>
+
+              {/* M&W Reserve */}
+              <div>
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs text-slate-500">{language === 'ar' ? 'احتياطي صيانة وضمان' : 'M&W Reserve'}</Label>
+                  <Select value={mwReserveType} onValueChange={setMwReserveType} disabled={!isEditable}>
+                    <SelectTrigger className="h-6 w-24 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="percentage">%</SelectItem>
+                      <SelectItem value="lumpsum">{language === 'ar' ? 'مبلغ' : 'Lump'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Input
+                  type="number"
+                  step="0.01"
+                  value={mwReserve || ''}
+                  onChange={(e) => setMwReserve(parseFloat(e.target.value) || 0)}
+                  className="mt-1 font-mono h-8"
+                  disabled={!isEditable}
+                  placeholder="0"
+                />
+                <div className="text-xs text-slate-500 mt-0.5 font-mono">= EGP {formatNumber(mwReserveAmount, 2)}</div>
+              </div>
+
+              <Separator />
+
+              {/* Target Profit Margin */}
+              <div>
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs text-slate-500 flex items-center gap-1">
+                    {language === 'ar' ? 'هامش ربح مستهدف' : 'Target Profit Margin'}
+                    <span className="text-amber-500">🔗</span>
+                  </Label>
+                  <Select value={targetProfitType} onValueChange={setTargetProfitType} disabled={!isEditable}>
+                    <SelectTrigger className="h-6 w-24 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="percentage">%</SelectItem>
+                      <SelectItem value="lumpsum">{language === 'ar' ? 'مبلغ' : 'Lump'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Input
+                  type="number"
+                  step="0.01"
+                  value={targetProfit || ''}
+                  onChange={(e) => setTargetProfit(parseFloat(e.target.value) || 0)}
+                  className="mt-1 font-mono h-8"
+                  disabled={!isEditable}
+                  placeholder="0"
+                />
+                <div className="text-xs text-slate-500 mt-0.5 font-mono">= EGP {formatNumber(targetProfitAmount, 2)}</div>
               </div>
 
               {/* Two-way arrow */}
@@ -857,7 +975,7 @@ export default function CostBreakdownModal({ open, onClose, boqItem }) {
                 <ArrowUpDown className="h-5 w-5 text-slate-400" />
               </div>
 
-              {/* Unit Selling Price */}
+              {/* Unit Selling Price (editable - bidirectional sync) */}
               <div>
                 <Label className="text-xs text-slate-500 flex items-center gap-1">
                   {language === 'ar' ? 'سعر البيع للوحدة' : 'Unit Selling Price'}
@@ -868,7 +986,7 @@ export default function CostBreakdownModal({ open, onClose, boqItem }) {
                   step="0.01"
                   value={sellingPrice}
                   onChange={(e) => handleSellingPriceChange(e.target.value)}
-                  className="mt-1 font-mono"
+                  className="mt-1 font-mono font-semibold"
                   disabled={!isEditable}
                 />
               </div>

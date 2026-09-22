@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { postGRNApproval } from '@/lib/glPostingEngine';
 
 const initialFormData = {
   grn_number: '',
@@ -73,6 +74,21 @@ export default function GoodsReceived() {
       : base44.entities.Warehouse.list(),
   });
 
+  const { data: glAccounts = [] } = useQuery({
+    queryKey: ['glAccounts', currentCompany?.id],
+    queryFn: () => currentCompany
+      ? base44.entities.GLAccount.filter({ company_id: currentCompany.id })
+      : base44.entities.GLAccount.list(),
+  });
+
+  const { data: grnLines = [] } = useQuery({
+    queryKey: ['grnLines', editingItem?.id],
+    queryFn: () => editingItem?.id
+      ? base44.entities.GRNLine.filter({ grn_id: editingItem.id })
+      : [],
+    enabled: !!editingItem?.id,
+  });
+
   const createMutation = useMutation({
     mutationFn: (data) => base44.entities.GoodsReceivedNote.create(data),
     onSuccess: () => {
@@ -83,7 +99,29 @@ export default function GoodsReceived() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.GoodsReceivedNote.update(id, data),
+    mutationFn: async ({ id, data }) => {
+      await base44.entities.GoodsReceivedNote.update(id, data);
+
+      // Post GL entries when GRN is approved/posted
+      if (data.status === 'posted' || data.status === 'accepted') {
+        try {
+          // Fetch GRN lines if not already loaded
+          let lines = grnLines;
+          if (lines.length === 0) {
+            lines = await base44.entities.GRNLine.filter({ grn_id: id });
+          }
+          await postGRNApproval({
+            grn: { id, grn_number: data.grn_number, grn_date: data.grn_date },
+            grnLines: lines,
+            accounts: glAccounts,
+            companyId: currentCompany?.id,
+            costCenterId: data.project_id,
+          });
+        } catch (e) {
+          console.error('[GL Posting] GRN posting failed:', e);
+        }
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['goodsReceived'] });
       setModalOpen(false);

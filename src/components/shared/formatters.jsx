@@ -1,10 +1,24 @@
-// Number formatting - ALWAYS use Western/English digits
+// Number formatting - ALWAYS use Western/English digits (never Eastern Arabic numerals)
 export const formatNumber = (num, decimals = 2) => {
   if (num === null || num === undefined || isNaN(num)) return '-';
-  return new Intl.NumberFormat('en-US', {
+  const formatted = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   }).format(num);
+  // Force Western numerals in case of locale leakage
+  return forceWesternNumerals(formatted);
+};
+
+/**
+ * Force Western Arabic numerals in any string.
+ * Converts Eastern Arabic numerals (٠-٩, ۰-۹) to Western (0-9).
+ * Use this as a safety net for any number display.
+ */
+export const forceWesternNumerals = (str) => {
+  if (str === null || str === undefined) return str;
+  return str.toString()
+    .replace(/[٠-٩]/g, d => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)))
+    .replace(/[۰-۹]/g, d => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)));
 };
 
 export const formatCurrency = (num, currency = 'EGP', decimals = 2) => {
@@ -22,37 +36,34 @@ export const formatPercentage = (num, decimals = 2) => {
   return `${formatNumber(num, decimals)}%`;
 };
 
-// Date formatting - uses English digits
+// Date formatting - always Western numerals
 export const formatDate = (dateStr) => {
   if (!dateStr) return '-';
   const date = new Date(dateStr);
-  return new Intl.DateTimeFormat('en-GB', {
+  return forceWesternNumerals(new Intl.DateTimeFormat('en-GB', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
-  }).format(date);
+  }).format(date));
 };
 
 export const formatDateTime = (dateStr) => {
   if (!dateStr) return '-';
   const date = new Date(dateStr);
-  return new Intl.DateTimeFormat('en-GB', {
+  return forceWesternNumerals(new Intl.DateTimeFormat('en-GB', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-  }).format(date);
+  }).format(date));
 };
 
-// Parse number from string (handles both Arabic and English digits)
+// Parse number from string (handles both Arabic-Indic and Eastern Arabic digits)
 export const parseNumber = (str) => {
   if (!str) return 0;
-  // Convert Arabic digits to English
-  const englishStr = str.toString()
-    .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
-    .replace(/,/g, '');
-  return parseFloat(englishStr) || 0;
+  const westernStr = forceWesternNumerals(str.toString()).replace(/,/g, '');
+  return parseFloat(westernStr) || 0;
 };
 
 // Get localized name based on language
